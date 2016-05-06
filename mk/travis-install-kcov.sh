@@ -34,14 +34,28 @@ mkdir build
 
 pushd build
 
-if [[  "$TARGET_X" == "i686-unknown-linux-gnu" ]]; then
-  # set PKG_CONFIG_PATH so the kcov build system uses the 32 bit libraries we installed.
-  # otherwise kcov will be linked with 64 bit libraries and won't work with 32 bit executables.
-  PKG_CONFIG_PATH="/usr/lib/i386-linux-gnu/pkgconfig" CFLAGS="-m32" CXXFLAGS="-m32" CC=$CC_X CXX=$CXX_X TARGET=$TARGET_X cmake -DCMAKE_INSTALL_PREFIX:PATH="${HOME}/kcov" ..
-else
-  CC=$CC_X CXX=$CXX_X TARGET=$TARGET_X cmake -DCMAKE_INSTALL_PREFIX:PATH="${HOME}/kcov" ..
-fi
+export CC=$CC_X
+export CXX=$CXX_X
+export TARGET=$TARGET_X
 
+# set PKG_CONFIG_PATH and compiler flags to cross compile kcov to $TARGET_X
+case $TARGET_X in
+aarch64-unknown-linux-gnu)
+  export PKG_CONFIG_PATH="/usr/lib/aarch64-linux-gnu/pkgconfig"
+  ;;
+arm-unknown-linux-gnueabi)
+  export PKG_CONFIG_PATH="/usr/lib/arm--linux-gnueabi/pkgconfig"
+  ;;
+i686-unknown-linux-gnu)
+  export PKG_CONFIG_PATH="/usr/lib/i386-linux-gnu/pkgconfig"
+  export CFLAGS="-m32"
+  export CXXFLAGS="-m32"
+  ;;
+*)
+  ;;
+esac
+
+cmake -DCMAKE_INSTALL_PREFIX:PATH="${HOME}/kcov" ..
 make
 make install
 
