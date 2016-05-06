@@ -22,7 +22,7 @@ matrix:
         - sudo apt-get install binfmt-support gcc-arm-linux-gnueabi g++-arm-linux-gnueabi libc6-dev-armel-cross qemu-user-binfmt -y
         - sudo apt-get install libcurl3:armel libcurl4-openssl-dev:armel libdw-dev:armel libelf-dev:armel libkrb5-dev:armel libssl-dev:armel linux-libc-dev:armel -y
 
-    - env: TARGET_X=i686-unknown-linux-gnu CC_X=gcc-5 CXX_X=g++-5 MODE_X=DEBUG KCOV=1
+    - env: TARGET_X=i686-unknown-linux-gnu CC_X=gcc-4.6 CXX_X=g++-4.6 MODE_X=DEBUG KCOV=1
       rust: nightly
       os: linux
       addons:
@@ -40,7 +40,7 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
 
-    - env: TARGET_X=x86_64-unknown-linux-gnu CC_X=gcc-5 CXX_X=g++-5 MODE_X=DEBUG KCOV=1
+    - env: TARGET_X=x86_64-unknown-linux-gnu CC_X=gcc-4.6 CXX_X=g++-4.6 MODE_X=DEBUG KCOV=1
       rust: nightly
       os: linux
       addons:
