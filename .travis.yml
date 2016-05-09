@@ -12,6 +12,6 @@ matrix:
         - sudo add-apt-repository ppa:pietro-monteiro/qemu-backport -y
         - sudo apt-get update -qq || echo "updated"
         - sudo apt-get install binfmt-support gcc-aarch64-linux-gnu gcc-4.8-aarch64-linux-gnu g++-aarch64-linux-gnu g++-4.8-aarch64-linux-gnu libc6-dev-arm64-cross qemu-user-binfmt -y
-        - sudo apt-get install --no-install-recommends libc6:arm64 libgssapi-krb5-2:arm64 libidn11:arm64 libldap-2.4-2:arm64 librtmp0:arm64 libssl1.0.0:arm64 zlib1g:arm64 libc6-dev:arm64 libidn11-dev:arm64 libldap2-dev:arm64 librtmp-dev:arm64 zlib1g-dev:arm64 libdw1:arm64 libelf1:arm64 krb5-multidev:arm64 libssl1.0.0:arm64 libcurl3:arm64 libcurl4-openssl-dev:arm64 libdw-dev:arm64 libelf-dev:arm64 libkrb5-dev:arm64 libssl-dev:arm64 -y
+        - sudo apt-get install --no-install-recommends libgssapi-krb5-2:arm64 libidn11:arm64 libldap-2.4-2:arm64 librtmp0:arm64 libssl1.0.0:arm64 zlib1g:arm64 libc6-dev:arm64 libidn11-dev:arm64 libldap2-dev:arm64 librtmp-dev:arm64 zlib1g-dev:arm64 libdw1:arm64 libelf1:arm64 krb5-multidev:arm64 libssl1.0.0:arm64 libcurl3:arm64 libcurl4-openssl-dev:arm64 libdw-dev:arm64 libelf-dev:arm64 libkrb5-dev:arm64 libssl-dev:arm64 -y
 
 script: if [[ "$TARGET_X" == "arm-unknown-linux-gnueabi" ]]; then travis_wait 60 mk/travis.sh; else mk/travis.sh; fi
