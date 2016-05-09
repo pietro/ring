@@ -41,21 +41,6 @@ export TARGET=$TARGET_X
 # set PKG_CONFIG_PATH and compiler flags to cross compile kcov to $TARGET_X
 case $TARGET_X in
 aarch64-unknown-linux-gnu)
-wget http://ports.ubuntu.com/ubuntu-ports/pool/main/c/curl/libcurl3_7.35.0-1ubuntu2.6_arm64.deb
-wget http://ports.ubuntu.com/ubuntu-ports/pool/main/c/curl/libcurl4-openssl-dev_7.35.0-1ubuntu2.6_arm64.deb
-wget http://ports.ubuntu.com/ubuntu-ports/pool/main/e/elfutils/libdw1_0.158-0ubuntu5.2_arm64.deb
-wget http://ports.ubuntu.com/ubuntu-ports/pool/main/e/elfutils/libdw-dev_0.158-0ubuntu5.2_arm64.deb
-wget http://ports.ubuntu.com/ubuntu-ports/pool/main/e/elfutils/libelf1_0.158-0ubuntu5.2_arm64.deb
-wget http://ports.ubuntu.com/ubuntu-ports/pool/main/e/elfutils/libelf-dev_0.158-0ubuntu5.2_arm64.deb
-wget http://ports.ubuntu.com/ubuntu-ports/pool/main/k/krb5/krb5-multidev_1.12+dfsg-2ubuntu5.2_arm64.deb
-wget http://ports.ubuntu.com/ubuntu-ports/pool/main/k/krb5/libkrb5-dev_1.12+dfsg-2ubuntu5.2_arm64.deb
-wget http://ports.ubuntu.com/ubuntu-ports/pool/main/o/openssl/libssl-dev_1.0.1f-1ubuntu2.19_arm64.deb
-wget http://ports.ubuntu.com/ubuntu-ports/pool/main/o/openssl/libssl1.0.0_1.0.1f-1ubuntu2.19_arm64.deb
-wget http://ports.ubuntu.com/ubuntu-ports/pool/main/z/zlib/zlib1g-dev_1.2.8.dfsg-1ubuntu1_arm64.deb
-wget http://ports.ubuntu.com/ubuntu-ports/pool/main/z/zlib/zlib1g_1.2.8.dfsg-1ubuntu1_arm64.deb
-
-dpkg-cross -i *.deb
-
   export PKG_CONFIG_PATH="/usr/lib/aarch64-linux-gnu/pkgconfig"
   ;;
 arm-unknown-linux-gnueabi)
