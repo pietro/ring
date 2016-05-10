@@ -43,7 +43,7 @@ case $TARGET_X in
 aarch64-unknown-linux-gnu)
 apt-get -o APT::Architecture="arm64" download libcurl3 libcurl4-openssl-dev libdw1 libdw-dev libelf1 krb5-multidev libkrb5-dev libssl-dev libssl1.0.0 zlib1g-dev zlib1g
 
-dpkg-cross -i *.deb
+sudo dpkg-cross -a arm64 -i *.deb
 
   export PKG_CONFIG_PATH="/usr/lib/aarch64-linux-gnu/pkgconfig"
   ;;
