@@ -52,8 +52,6 @@ arm-unknown-linux-gnueabi)
   ;;
 esac
 
-CC=$CC_X CXX=$CXX_X cargo test -j2 ${mode-} --verbose --target=$TARGET_X
-
 if [[ "$KCOV" == "1" ]]; then
   # kcov reports coverage as a percentage of code *linked into the executable*
   # (more accurately, code that has debug info linked into the executable), not
