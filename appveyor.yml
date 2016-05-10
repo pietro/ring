@@ -24,6 +24,6 @@ environment:
     - TOOLCHAIN_VERSION: 12.0
       RUST: nightly
 cache:                                                                                                                                                                                         
-  ring\windows_build_tools
+  windows_build_tools -> mk/appveyor.bat
 
 build_script: mk/appveyor.bat

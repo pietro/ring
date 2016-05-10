@@ -27,6 +27,7 @@ goto download
 REM vcvarsall turns echo off
 echo on
 
+if not exist windows_build_tools\yasm.exe (
 mkdir windows_build_tools
 mkdir windows_build_tools\
 echo Downloading Yasm...
@@ -34,6 +35,7 @@ powershell -Command "(New-Object Net.WebClient).DownloadFile('http://www.tortall
 if %ERRORLEVEL% NEQ 0 (
   echo ...downloading Rust failed.
   exit 1
+)
 )
 
 set RUST_URL=https://static.rust-lang.org/dist/rust-%RUST%-%TARGET_ARCH%-pc-windows-msvc.msi
