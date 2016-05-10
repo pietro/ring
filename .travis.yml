@@ -11,7 +11,6 @@ matrix:
         - sudo add-apt-repository 'deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ trusty main' -y
         - sudo add-apt-repository ppa:pietro-monteiro/qemu-backport -y
         - sudo apt-get update -qq || echo "updated"
-        - sudo apt-get install binfmt-support gcc-aarch64-linux-gnu gcc-4.8-aarch64-linux-gnu g++-aarch64-linux-gnu g++-4.8-aarch64-linux-gnu libc6-dev-arm64-cross qemu-user-binfmt -y
-        - sudo apt-get build-dep -a arm64 kcov
+        - sudo apt-get install binfmt-support dpkg-cross gcc-aarch64-linux-gnu gcc-4.8-aarch64-linux-gnu g++-aarch64-linux-gnu g++-4.8-aarch64-linux-gnu libc6-dev-arm64-cross qemu-user-binfmt -y
 
 script: if [[ "$TARGET_X" == "arm-unknown-linux-gnueabi" ]]; then travis_wait 60 mk/travis.sh; else mk/travis.sh; fi
