@@ -19,36 +19,10 @@ IFS=$'\n\t'
 
 printenv
 
-case $TARGET_X in
-aarch64-unknown-linux-gnu)
-  DL_TARGET=aarch64-linux-gnu
-  DL_DIGEST=b9137008744d9009877f662dbac7481d673cdcb1798e727e325a37c98a0f63da
-  ;;
-arm-unknown-linux-gnueabi)
-  DL_TARGET=arm-linux-gnueabi
-  DL_DIGEST=1c11a944d3e515405e01effc129f3bbf24effb300effa10bf486c9119378ccd7
-  ;;
-*)
-  ;;
-esac
-
-if [[ -n ${DL_TARGET-} ]]; then
-  # We need a newer QEMU than Travis has.
-  sudo add-apt-repository ppa:pietro-monteiro/qemu-backport -y
-  sudo apt-get update -qq
-  sudo apt-get install binfmt-support qemu-user-binfmt -y
-
-  DL_ROOT=https://releases.linaro.org/components/toolchain/binaries/
-  DL_RELEASE=5.1-2015.08
-  DL_BASENAME=gcc-linaro-$DL_RELEASE-x86_64_$DL_TARGET
-  wget $DL_ROOT/$DL_RELEASE/$DL_TARGET/$DL_BASENAME.tar.xz
-  echo "$DL_DIGEST  $DL_BASENAME.tar.xz" | sha256sum -c
-  tar xf $DL_BASENAME.tar.xz
-  export PATH=$PWD/$DL_BASENAME/bin:$PATH
-fi
-
 if [[ ! "$TARGET_X" =~ "x86_64-" ]]; then
-  ./mk/travis-install-rust-std.sh
+   sh ~/rust-installer/rustup.sh --add-target=$TARGET_X \
+     --disable-sudo -y \
+     --prefix=`rustc --print sysroot`
 
   # By default cargo/rustc seems to use cc for linking, We installed the
   # multilib support that corresponds to $CC_X and $CXX_X but unless cc happens
@@ -60,53 +34,30 @@ if [[ ! "$TARGET_X" =~ "x86_64-" ]]; then
   cat .cargo/config
 fi
 
-$CC_X --version
-$CXX_X --version
-make --version
+# If we're testing with a docker image, then run tests entirely within that
+# image. Note that this is using the same rustc installation that travis has
+# (sharing it via `-v`) and otherwise the tests run entirely within the
+# container.
+#
+# For the docker build we mount the entire current directory at /checkout, set
+# up some environment variables to let it run, and then run the standard run.sh
+# script.
+if [ "${DOCKER-}" != "" ]; then
+  args=""
 
-cargo version
-rustc --version
+pwd
+ls -l
 
-if [[ "$MODE_X" == "RELWITHDEBINFO" ]]; then mode=--release; fi
-
-case $TARGET_X in
-aarch64-unknown-linux-gnu)
-  export QEMU_LD_PREFIX=$DL_BASENAME/aarch64-linux-gnu/libc
-  ;;
-arm-unknown-linux-gnueabi)
-  export QEMU_LD_PREFIX=$DL_BASENAME/arm-linux-gnueabi/libc
-    ;;
-*)
-  ;;
-esac
-
-CC=$CC_X CXX=$CXX_X cargo test -j2 ${mode-} --verbose --target=$TARGET_X
-
-if [[ "$KCOV" == "1" ]]; then
-  # kcov reports coverage as a percentage of code *linked into the executable*
-  # (more accurately, code that has debug info linked into the executable), not
-  # as a percentage of source code. Thus, any code that gets discarded by the
-  # linker due to lack of usage isn't counted at all. Thus, we have to re-link
-  # with "-C link-dead-code" to get accurate code coverage reports.
-  # Alternatively, we could link pass "-C link-dead-code" in the "cargo test"
-  # step above, but then "cargo test" we wouldn't be testing the configuration
-  # we expect people to use in production.
-  CC=$CC_X CXX=$CXX_X cargo clean
-  CC=$CC_X CXX=$CXX_X RUSTFLAGS="-C link-dead-code" \
-    cargo test --no-run -j2  ${mode-} --verbose --target=$TARGET_X
-  mk/travis-install-kcov.sh
-  ${HOME}/kcov-${TARGET_X}/bin/kcov --verify \
-                                    --coveralls-id=$TRAVIS_JOB_ID \
-                                    --exclude-path=/usr/include \
-                                    --include-pattern="ring/crypto,ring/src" \
-                                    target/kcov \
-                                    target/$TARGET_X/debug/ring-*
+  exec docker run \
+    --entrypoint bash \
+    -v `rustc --print sysroot`:/usr/local:ro \
+    -v `pwd`:/checkout:rw \
+    -e LD_LIBRARY_PATH=/usr/local/lib \
+    -e CARGO_TARGET_DIR=/tmp \
+    $args \
+    -w /checkout \
+    -it $DOCKER \
+    mk/run.sh $TARGET_X
 fi
-
-# Verify that `cargo build`, independent from `cargo test`, works; i.e. verify
-# that non-test builds aren't trying to use test-only features. For platforms
-# for which we don't run tests, this is the only place we even verify that the
-# code builds.
-CC=$CC_X CXX=$CXX_X cargo build -j2 ${mode-} --verbose --target=$TARGET_X
 
 echo end of mk/travis.sh

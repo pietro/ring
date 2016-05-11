@@ -27,10 +27,14 @@ TARGET_VENDOR = $(word 2,$(TARGET_WORDS))
 TARGET_SYS = $(word 3,$(TARGET_WORDS))
 TARGET_ABI = $(word 4,$(TARGET_WORDS))
 
-# Cargo doesn't pass the ABI as part of TARGET on Mac OS X.
+
+# Cargo doesn't pass the ABI as part of TARGET on Mac OS X or Android.
 ifeq ($(TARGET_ABI),)
 ifeq ($(findstring apple-darwin,$(TARGET_VENDOR)-$(TARGET_SYS)),apple-darwin)
 TARGET_ABI = macho
+ifeq ($(findstring linux-androideabi,$(TARGET_VENDOR)-$(TARGET_SYS)),linux-androideabi)
+TARGET_ABI = androideabi
+TARGET_ARCH = $(TARGET_ARCH_NORMAL)
 else
 define NEWLINE
 
@@ -39,12 +43,11 @@ endef
 $(error TARGET must be of the form \
         <arch>[<sub>]-<vendor>-<sys>-<abi>.$(NEWLINE)\
 \
-\       Exceptions: <abi> defaults to "macho" on Mac OS X.\
-\
+        Exceptions: <abi> defaults to "macho" on Mac OS X.\
         Linux x86 example: TARGET=i586-pc-linux-gnu $(NEWLINE)\
         Mac OS X x64 example: TARGET=x86_64-apple-darwin $(NEWLINE)\
-\
         NOTE: Use "i586" instead of "x86".)
+endif
 endif
 endif
 
