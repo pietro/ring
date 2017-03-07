@@ -37,7 +37,7 @@ if [[ ! -f $ANDROID_SDK_INSTALL_DIR/tools/emulator ]];then
 
   curl ${ANDROID_SDK_URL} | tar -zxf -
 
-  echo y | ./android-sdk-linux/tools/android update sdk -a --no-ui --filter platform-tools,android-18,sys-img-armeabi-v7a-android-18
+  echo y | ./android-sdk-linux/tools/android update sdk -a --no-ui --filter tools,platform-tools,android-18,sys-img-armeabi-v7a-android-18
 
   popd
 fi
