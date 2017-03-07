@@ -220,8 +220,7 @@ def get_linux_packages_to_install(target, compiler, arch, kcov):
                      "g++-arm-linux-gnueabihf",
                      "libc6-dev-armhf-cross"]
     if target == "arm-linux-androideabi":
-        packages += ["expect",
-                     "openjdk-6-jre-headless"]
+        packages += ["openjdk-6-jre-headless"]
 
     if arch == "i686":
         if kcov == True:

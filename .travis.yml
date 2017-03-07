@@ -16,7 +16,6 @@ matrix:
       addons:
         apt:
           packages:
-            - expect
             - openjdk-6-jre-headless
           sources:
             - ubuntu-toolchain-r-test
@@ -29,7 +28,6 @@ matrix:
       addons:
         apt:
           packages:
-            - expect
             - openjdk-6-jre-headless
           sources:
             - ubuntu-toolchain-r-test
@@ -42,7 +40,6 @@ matrix:
       addons:
         apt:
           packages:
-            - expect
             - openjdk-6-jre-headless
           sources:
             - ubuntu-toolchain-r-test
@@ -55,7 +52,6 @@ matrix:
       addons:
         apt:
           packages:
-            - expect
             - openjdk-6-jre-headless
           sources:
             - ubuntu-toolchain-r-test
