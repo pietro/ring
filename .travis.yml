@@ -60,4 +60,4 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
 
-script: if [[ "$TARGET_X" =~ ^a*.*linux-.*eabi ]]; then travis_wait 60 mk/travis.sh; else mk/travis.sh; fi
+script: mk/travis.sh
