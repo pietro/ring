@@ -60,6 +60,7 @@ if [[ ! -f $ANDROID_NDK_INSTALL_DIR/bin/arm-linux-androideabi-gcc ]];then
   unzip -q android-ndk-r${ANDROID_NDK_VERSION}-linux-x86_64.zip
 
   ./android-ndk-r${ANDROID_NDK_VERSION}/build/tools/make-standalone-toolchain.sh \
+                 --force \
 		 --platform=android-18 \
 		 --toolchain=arm-linux-androideabi-4.8 \
 		 --install-dir=${ANDROID_NDK_INSTALL_DIR}
