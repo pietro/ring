@@ -17,8 +17,6 @@ matrix:
         apt:
           packages:
             - openjdk-6-jre-headless
-          sources:
-            - ubuntu-toolchain-r-test
 
     - env: TARGET_X=arm-linux-androideabi CC_X=arm-linux-androideabi-gcc CXX_X=arm-linux-androideabi-g++ FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: stable
@@ -29,8 +27,6 @@ matrix:
         apt:
           packages:
             - openjdk-6-jre-headless
-          sources:
-            - ubuntu-toolchain-r-test
 
     - env: TARGET_X=arm-linux-androideabi CC_X=arm-linux-androideabi-gcc CXX_X=arm-linux-androideabi-g++ FEATURES_X=--features=rsa_signing MODE_X=RELWITHDEBINFO KCOV=0
       rust: stable
@@ -41,8 +37,6 @@ matrix:
         apt:
           packages:
             - openjdk-6-jre-headless
-          sources:
-            - ubuntu-toolchain-r-test
 
     - env: TARGET_X=arm-linux-androideabi CC_X=arm-linux-androideabi-gcc CXX_X=arm-linux-androideabi-g++ FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: stable
@@ -53,7 +47,5 @@ matrix:
         apt:
           packages:
             - openjdk-6-jre-headless
-          sources:
-            - ubuntu-toolchain-r-test
 
-script: mk/travis.sh
+script: if [[ "$MODE_X" == "RELWITHDEBINFO" ]]; then travis_wait 60 mk/travis.sh; else mk/travis.sh; fi
