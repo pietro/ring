@@ -63,7 +63,6 @@ if [[ ! -f $ANDROID_NDK_INSTALL_DIR/bin/arm-linux-androideabi-gcc ]];then
 		 --force \
 		 --arch arm \
 		 --api 18 \
-		 --unified-headers \
 		 --install-dir ${ANDROID_NDK_INSTALL_DIR}
 
   popd
