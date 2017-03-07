@@ -59,11 +59,12 @@ if [[ ! -f $ANDROID_NDK_INSTALL_DIR/bin/arm-linux-androideabi-gcc ]];then
   curl -O ${ANDROID_NDK_URL}
   unzip -q android-ndk-r${ANDROID_NDK_VERSION}-linux-x86_64.zip
 
-  ./android-ndk-r${ANDROID_NDK_VERSION}/build/tools/make-standalone-toolchain.sh \
-                 --force \
-		 --platform=android-18 \
-		 --toolchain=arm-linux-androideabi-4.8 \
-		 --install-dir=${ANDROID_NDK_INSTALL_DIR}
+  ./android-ndk-r${ANDROID_NDK_VERSION}/build/tools/make_standalone_toolchain.py \
+		 --force \
+		 --arch arm \
+		 --api 18 \
+		 --unified-headers \
+		 --install-dir ${ANDROID_NDK_INSTALL_DIR}
 
   popd
 fi
