@@ -1,6 +1,5 @@
 language: rust
-rust:
-  - stable
+rust: stable
 cache:
   directories:
     - $HOME/kcov-i686-unknown-linux-gnu
