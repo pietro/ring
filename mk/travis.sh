@@ -88,8 +88,7 @@ fi
 case $TARGET_X in
 armv7-linux-androideabi)
   cargo test -vv -j2 --no-run ${mode-} ${FEATURES_X-} --target=$TARGET_X
-  echo no | android create avd --force --name arm-18 --target android-18 --abi armeabi-v7a
-  android list avd
+  emulator -version
   emulator @arm-18 -no-skin -no-boot-anim -no-window &
   adb wait-for-device
   adb push $target_dir/ring-* /data/ring-test
