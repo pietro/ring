@@ -14,6 +14,7 @@ matrix:
           - build-tools-24.4.1
           - android-18
           - sys-img-armeabi-v7a-android-18
+          - ndk-bundle
 
     - env: TARGET_X=armv7-linux-androideabi CC_X=arm-linux-androideabi-clang CXX_X=arm-linux-androideabi-clang++ FEATURES_X= MODE_X=DEBUG KCOV=0
       os: linux
@@ -23,6 +24,7 @@ matrix:
           - build-tools-24.4.1
           - android-18
           - sys-img-armeabi-v7a-android-18
+          - ndk-bundle
 
     - env: TARGET_X=armv7-linux-androideabi CC_X=arm-linux-androideabi-clang CXX_X=arm-linux-androideabi-clang++ FEATURES_X=--features=rsa_signing MODE_X=RELWITHDEBINFO KCOV=0
       os: linux
@@ -32,6 +34,7 @@ matrix:
           - build-tools-24.4.1
           - android-18
           - sys-img-armeabi-v7a-android-18
+          - ndk-bundle
 
     - env: TARGET_X=armv7-linux-androideabi CC_X=arm-linux-androideabi-clang CXX_X=arm-linux-androideabi-clang++ FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       os: linux
@@ -41,6 +44,6 @@ matrix:
           - build-tools-24.4.1
           - android-18
           - sys-img-armeabi-v7a-android-18
-
+          - ndk-bundle
 
 script: if [[ "$TARGET_X" =~ ^a*.*linux-.*eabi && "$MODE_X" == "RELWITHDEBINFO" ]]; then travis_wait 60 mk/travis.sh; else mk/travis.sh; fi
