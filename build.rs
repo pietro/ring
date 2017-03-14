@@ -547,9 +547,9 @@ fn cc(file: &str, ext: &str, target: &Target, out_dir: &Path) -> Command {
         // http://www.openwall.com/lists/musl/2015/06/17/1
         let _ = c.flag("-U_FORTIFY_SOURCE");
     }
-    if target.os() == "android" && target.arch() == "arm" {
-            let _ = c.flag("-march=armv7-a");
-    }
+    // if target.os() == "android" && target.arch() == "arm" {
+    //         let _ = c.flag("-march=armv7-a");
+    // }
 
     let mut c = c.get_compiler().to_command();
     let _ = c.arg("-c")
