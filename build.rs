@@ -312,7 +312,17 @@ fn cpp_flags(target: &Target) -> &'static [&'static str] {
     }
 }
 
-const LD_FLAGS: &'static [&'static str] = &[];
+fn ld_flags(target: &Target) -> &'static [&'static str] {
+    if target.os() == "android" && target.arch() == "arm" {
+        static ANDROID_ARM_FLAGS: &'static [&'static str] = &[
+            "-march=armv7-a",
+            "-Wl,--fix-cortex-a8"
+        ];
+        ANDROID_ARM_FLAGS
+    } else {
+        &[]
+    }
+}
 
 fn main() {
     for (key, value) in env::vars() {
@@ -443,7 +453,7 @@ fn build_library<P>(out_path: &Path, additional: P,
         .any(|p| need_run(&p, out_path)) {
         let mut c = gcc::Config::new();
 
-        for f in LD_FLAGS {
+        for f in ld_flags(target) {
             let _ = c.flag(&f);
         }
         match target.os() {
