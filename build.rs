@@ -548,6 +548,7 @@ fn cc(file: &str, ext: &str, target: &Target, out_dir: &Path) -> Command {
         let _ = c.flag("-U_FORTIFY_SOURCE");
     }
     if target.os() == "android" && target.arch() == "arm" {
+        let _ = c.flag("-march=armv7-a");
         let _ = c.flag("-mthumb");
     }
 
