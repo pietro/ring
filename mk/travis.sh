@@ -26,14 +26,14 @@ aarch64-unknown-linux-gnu)
 arm-unknown-linux-gnueabihf)
   export QEMU_LD_PREFIX=/usr/arm-linux-gnueabihf
   ;;
-# armv7-linux-androideabi)
-#   # install the android sdk/ndk
-#   mk/travis-install-android.sh
+armv7-linux-androideabi)
+  # install the android sdk/ndk
+  mk/travis-install-android.sh
 
-#   export PATH=$HOME/android/android-18-arm-linux-androideabi-4.8/bin:$PATH
-#   export PATH=$HOME/android/android-sdk-linux/platform-tools:$PATH
-#   export PATH=$HOME/android/android-sdk-linux/tools:$PATH
-#   ;;
+  export PATH=$HOME/android/android-18-arm-linux-androideabi-4.8/bin:$PATH
+  export PATH=$HOME/android/android-sdk-linux/platform-tools:$PATH
+  export PATH=$HOME/android/android-sdk-linux/tools:$PATH
+  ;;
 *)
   ;;
 esac
@@ -87,8 +87,7 @@ fi
 
 case $TARGET_X in
 armv7-linux-androideabi)
-  #RUSTFLAGS="-C link-args='-march=armv7-a -Wl,--fix-cortex-a8'" \
-    cargo test -vv -j2 --no-run ${mode-} ${FEATURES_X-} --target=$TARGET_X
+  cargo test -vv -j2 --no-run ${mode-} ${FEATURES_X-} --target=$TARGET_X
   echo no | android create avd --force --name arm-18 --target android-18 --abi armeabi-v7a
   android list avd
   emulator @arm-18 -no-skin -no-boot-anim -no-window &

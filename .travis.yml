@@ -1,49 +1,46 @@
 language: rust
-rust: stable
 cache:
   directories:
     - $HOME/kcov-i686-unknown-linux-gnu
     - $HOME/kcov-x86_64-unknown-linux-gnu
+    - $HOME/android/android-sdk-linux
+    - $HOME/android/android-18-arm-linux-androideabi-4.8
 matrix:
   include:
     - env: TARGET_X=armv7-linux-androideabi CC_X=arm-linux-androideabi-clang CXX_X=arm-linux-androideabi-clang++ FEATURES_X=--features=rsa_signing MODE_X=DEBUG KCOV=0
       os: linux
       dist: trusty
-      android:
-        components:
-          - build-tools-24.4.1
-          - android-18
-          - sys-img-armeabi-v7a-android-18
-          - ndk-bundle
+      addons:
+        apt:
+          packages:
+            - expect
+            - openjdk-6-jre-headless
 
     - env: TARGET_X=armv7-linux-androideabi CC_X=arm-linux-androideabi-clang CXX_X=arm-linux-androideabi-clang++ FEATURES_X= MODE_X=DEBUG KCOV=0
       os: linux
       dist: trusty
-      android:
-        components:
-          - build-tools-24.4.1
-          - android-18
-          - sys-img-armeabi-v7a-android-18
-          - ndk-bundle
+      addons:
+        apt:
+          packages:
+            - expect
+            - openjdk-6-jre-headless
 
     - env: TARGET_X=armv7-linux-androideabi CC_X=arm-linux-androideabi-clang CXX_X=arm-linux-androideabi-clang++ FEATURES_X=--features=rsa_signing MODE_X=RELWITHDEBINFO KCOV=0
       os: linux
       dist: trusty
-      android:
-        components:
-          - build-tools-24.4.1
-          - android-18
-          - sys-img-armeabi-v7a-android-18
-          - ndk-bundle
+      addons:
+        apt:
+          packages:
+            - expect
+            - openjdk-6-jre-headless
 
     - env: TARGET_X=armv7-linux-androideabi CC_X=arm-linux-androideabi-clang CXX_X=arm-linux-androideabi-clang++ FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       os: linux
       dist: trusty
-      android:
-        components:
-          - build-tools-24.4.1
-          - android-18
-          - sys-img-armeabi-v7a-android-18
-          - ndk-bundle
+      addons:
+        apt:
+          packages:
+            - expect
+            - openjdk-6-jre-headless
 
 script: if [[ "$TARGET_X" =~ ^a*.*linux-.*eabi && "$MODE_X" == "RELWITHDEBINFO" ]]; then travis_wait 60 mk/travis.sh; else mk/travis.sh; fi
