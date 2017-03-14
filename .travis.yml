@@ -10,6 +10,7 @@ matrix:
     - env: TARGET_X=armv7-linux-androideabi CC_X=arm-linux-androideabi-clang CXX_X=arm-linux-androideabi-clang++ FEATURES_X=--features=rsa_signing MODE_X=DEBUG KCOV=0
       os: linux
       dist: trusty
+      sudo: required
       android:
         components:
           - build-tools-24.4.1
@@ -19,6 +20,7 @@ matrix:
     - env: TARGET_X=armv7-linux-androideabi CC_X=arm-linux-androideabi-clang CXX_X=arm-linux-androideabi-clang++ FEATURES_X= MODE_X=DEBUG KCOV=0
       os: linux
       dist: trusty
+      sudo: required
       android:
         components:
           - build-tools-24.4.1
@@ -28,6 +30,7 @@ matrix:
     - env: TARGET_X=armv7-linux-androideabi CC_X=arm-linux-androideabi-clang CXX_X=arm-linux-androideabi-clang++ FEATURES_X=--features=rsa_signing MODE_X=RELWITHDEBINFO KCOV=0
       os: linux
       dist: trusty
+      sudo: required
       android:
         components:
           - build-tools-24.4.1
@@ -37,6 +40,7 @@ matrix:
     - env: TARGET_X=armv7-linux-androideabi CC_X=arm-linux-androideabi-clang CXX_X=arm-linux-androideabi-clang++ FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       os: linux
       dist: trusty
+      sudo: required
       android:
         components:
           - build-tools-24.4.1
