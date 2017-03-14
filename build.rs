@@ -548,7 +548,7 @@ fn cc(file: &str, ext: &str, target: &Target, out_dir: &Path) -> Command {
         let _ = c.flag("-U_FORTIFY_SOURCE");
     }
     if target.os() == "android" && target.arch() == "arm" {
-        //let _ = c.define("BORINGSSL_CLANG_SUPPORTS_DOT_ARCH");
+        let _ = c.define("BORINGSSL_CLANG_SUPPORTS_DOT_ARCH");
         let _ = c.flag("-march=armv7-a");
         let _ = c.flag("-mthumb");
         let _ = c.flag("-fno-integrated-as");
