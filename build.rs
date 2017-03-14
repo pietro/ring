@@ -551,7 +551,7 @@ fn cc(file: &str, ext: &str, target: &Target, out_dir: &Path) -> Command {
         let _ = c.define("BORINGSSL_CLANG_SUPPORTS_DOT_ARCH", None);
         let _ = c.flag("-march=armv7-a");
         let _ = c.flag("-mthumb");
-        let _ = c.flag("-fno-integrated-as");
+        //let _ = c.flag("-fno-integrated-as");
     }
 
     let mut c = c.get_compiler().to_command();
