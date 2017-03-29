@@ -671,7 +671,7 @@ fn cc(file: &Path, ext: &str, target: &Target, out_dir: &Path) -> Command {
         let _ = c.flag("-mfpu=neon");
         let _ = c.flag("-fsanitize=address");
         let _ = c.flag("-fno-omit-frame-pointer");
-        //let _ = c.flag("-no-integrated-as");
+        let _ = c.flag("-no-integrated-as");
     }
 
     let mut c = c.get_compiler().to_command();
