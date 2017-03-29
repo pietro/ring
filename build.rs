@@ -672,7 +672,6 @@ fn cc(file: &Path, ext: &str, target: &Target, out_dir: &Path) -> Command {
         let _ = c.flag("-fsanitize=address");
         let _ = c.flag("-fno-omit-frame-pointer");
         let _ = c.flag("-no-integrated-as");
-        let _ = c.flag("-L/home/travis/android/android-18-arm-linux-androideabi-4.8/lib64/clang/3.8/lib/linux/");
     }
 
     let mut c = c.get_compiler().to_command();
