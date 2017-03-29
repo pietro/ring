@@ -665,7 +665,7 @@ fn cc(file: &Path, ext: &str, target: &Target, out_dir: &Path) -> Command {
         // https://android.googlesource.com/platform/ndk/+/master/docs/UnifiedHeaders.md#Supporting-Unified-Headers-in-Your-Build-System
         //let _ = c.define("__ANDROID_API__", Some("18"));
         //let _ = c.flag("-march=armv7-a");
-        let _ = c..define("BORINGSSL_CLANG_SUPPORTS_DOT_ARCH");
+        let _ = c.define("BORINGSSL_CLANG_SUPPORTS_DOT_ARCH");
     }
 
     let mut c = c.get_compiler().to_command();
