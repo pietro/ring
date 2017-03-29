@@ -304,7 +304,9 @@ fn cpp_flags(target: &Target) -> &'static [&'static str] {
     }
 }
 
-const LD_FLAGS: &'static [&'static str] = &[];
+const LD_FLAGS: &'static [&'static str] = &[
+    "-fsanitize=address"
+];
 
 // None means "any OS" or "any target". The first match in sequence order is
 // taken.
@@ -665,9 +667,11 @@ fn cc(file: &Path, ext: &str, target: &Target, out_dir: &Path) -> Command {
         // https://android.googlesource.com/platform/ndk/+/master/docs/UnifiedHeaders.md#Supporting-Unified-Headers-in-Your-Build-System
         //let _ = c.define("__ANDROID_API__", Some("18"));
         let _ = c.flag("-march=armv7-a");
-        //let _ = c.flag("-mthumb");
+        let _ = c.flag("-mthumb");
+        let _ = c.flag("-mfpu=neon");
+        let _ = c.flag("-fsanitize=address");
+        let _ = c.flag("-fno-omit-frame-pointer");
         //let _ = c.flag("-no-integrated-as");
-        //let _ = c.define("BORINGSSL_CLANG_SUPPORTS_DOT_ARCH", Some("1"));
     }
 
     let mut c = c.get_compiler().to_command();
