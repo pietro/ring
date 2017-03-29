@@ -237,7 +237,6 @@ fn cxx_flags(target: &Target) -> &'static [&'static str] {
     if target.env != MSVC {
         static NON_MSVC_FLAGS: &'static [&'static str] = &[
             "-std=c++0x",  // GCC 4.6 requires "c++0x" instead of "c++11"
-            "-fsanitize=addres"
         ];
         NON_MSVC_FLAGS
     } else {
