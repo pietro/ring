@@ -275,7 +275,7 @@ lazy_static = "0.2.1"
 # we do not use the gcc parallel feature because we do the
 # parallelism ourself. This gives us a much higher level of
 # control about what should be parallised in which way
-gcc = "0.3"
+gcc = { git = "https://github.com/pietro/gcc-rs" }
 rayon = "0.6"
 
 [features]
