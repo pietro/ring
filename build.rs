@@ -304,9 +304,7 @@ fn cpp_flags(target: &Target) -> &'static [&'static str] {
     }
 }
 
-const LD_FLAGS: &'static [&'static str] = &[
-    "-fsanitize=address"
-];
+const LD_FLAGS: &'static [&'static str] = &[];
 
 // None means "any OS" or "any target". The first match in sequence order is
 // taken.
@@ -669,8 +667,6 @@ fn cc(file: &Path, ext: &str, target: &Target, out_dir: &Path) -> Command {
         let _ = c.flag("-march=armv7-a");
         let _ = c.flag("-mthumb");
         let _ = c.flag("-mfpu=neon");
-        let _ = c.flag("-fsanitize=address");
-        let _ = c.flag("-fno-omit-frame-pointer");
         let _ = c.flag("-no-integrated-as");
     }
 
