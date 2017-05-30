@@ -53,8 +53,8 @@ osx_compilers = [
 
 compilers = {
     "aarch64-unknown-linux-gnu" : [ "aarch64-linux-gnu-gcc" ],
-    "aarch64-linux-android" : [ "aarch64-linux-android-gcc" ],
-    "armv7-linux-androideabi" : [ "arm-linux-androideabi-gcc" ],
+    "aarch64-linux-android" : [ "aarch64-linux-android-clang" ],
+    "armv7-linux-androideabi" : [ "arm-linux-androideabi-clang" ],
     "arm-unknown-linux-gnueabihf" : [ "arm-linux-gnueabihf-gcc" ],
     "i686-unknown-linux-gnu" : linux_compilers,
     "x86_64-unknown-linux-gnu" : linux_compilers,
