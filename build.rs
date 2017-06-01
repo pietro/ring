@@ -618,9 +618,7 @@ fn cc(file: &Path, ext: &str, target: &Target, warnings_are_errors: bool,
         if target.arch() == ARM {
             // ARM assembly requires Thumb2 instructions
             let _ = c.flag("-mthumb");
-        } else if target.arch() == AARCH64 {
-            // AARCH64 assembly requires crypto instructions
-            let _ = c.flag("-target-feature +crypto");
+            let _ = c.flag("-mfpu=neon");
         }
     }
 
