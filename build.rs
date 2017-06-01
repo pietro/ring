@@ -619,7 +619,7 @@ fn cc(file: &Path, ext: &str, target: &Target, warnings_are_errors: bool,
             let _ = c.flag("-mthumb");
         } else if target.arch() == AARCH64 {
             // AARCH64 assembly requires crypto instructions
-            let _ = c.flag("-mcpu=arm64-v8a+crypto");
+            let _ = c.flag("-target-feature +crypto");
         }
     }
 
