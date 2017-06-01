@@ -611,6 +611,16 @@ fn cc(file: &Path, ext: &str, target: &Target, warnings_are_errors: bool,
         let _ = c.flag("-U_FORTIFY_SOURCE");
     }
 
+    if target.os() == "android" {
+        if target.arch() == ARM {
+            // ARM assembly requires Thumb2 instructions
+            let _ = c.flag("-mthumb");
+        } else if target.arch() == AARCH64 {
+            // AARCH64 assembly requires crypto instructions
+            let _ = c.flag("-mcpu=arm64-v8a+crypto");
+        }
+    }
+
     let mut c = c.get_compiler().to_command();
     let _ = c.arg("-c")
              .arg(format!("{}{}", target.obj_opt,
