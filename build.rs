@@ -612,12 +612,13 @@ fn cc(file: &Path, ext: &str, target: &Target, warnings_are_errors: bool,
     }
 
     if target.os() == "android" {
-        // Clang `as` breaks on some of the arm assembly files (crbug.com/124610).
-        let _ = c.flag("-fno-integrated-as");
         let _ = c.flag("-DBORINGSSL_CLANG_SUPPORTS_DOT_ARCH");
         if target.arch() == ARM {
+            // Clang assembler can't handle some of the arm assembly files (crbug.com/124610).
+            let _ = c.flag("-fno-integrated-as");
             // ARM assembly requires Thumb2 instructions
             let _ = c.flag("-mthumb");
+            // Enable NEON support. Ring has runtime detection for cpu features.
             let _ = c.flag("-mfpu=neon");
         }
     }
