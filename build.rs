@@ -612,8 +612,10 @@ fn cc(file: &Path, ext: &str, target: &Target, warnings_are_errors: bool,
     }
 
     if target.os() == "android" {
-        let _ = c.flag("-DBORINGSSL_CLANG_SUPPORTS_DOT_ARCH");
+        let _ = c.define("BORINGSSL_CLANG_SUPPORTS_DOT_ARCH", None);
         if target.arch() == ARM {
+            // ARM assembly requires Thumb2 instructions
+            let _ = c.flag("-mthumb");
             // Clang assembler can't handle some of the arm assembly files (crbug.com/124610).
             let _ = c.flag("-fno-integrated-as");
         }
