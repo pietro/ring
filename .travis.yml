@@ -3,8 +3,7 @@ cache:
   directories:
     - $HOME/kcov-i686-unknown-linux-gnu
     - $HOME/kcov-x86_64-unknown-linux-gnu
-    - $HOME/android/sdk
-    - $HOME/android/android-18-arm-linux-androideabi-4.8
+    - $HOME/android
 matrix:
   fast_finish: true
   allow_failures:

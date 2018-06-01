@@ -35,14 +35,21 @@ mkdir -p "${ANDROID_SDK_INSTALL_DIR}"
 pushd "${ANDROID_INSTALL_PREFIX}"
 
 if [[ ! -f $ANDROID_SDK_INSTALL_DIR/tools/emulator ]];then
-  curl -fo sdk.zip ${ANDROID_SDK_TOOLS_URL}
-  unzip -q sdk.zip -d ${ANDROID_SDK_INSTALL_DIR}
+  mkdir -p "${ANDROID_INSTALL_PREFIX}/downloads"
+  pushd "${ANDROID_INSTALL_PREFIX}/downloads"
 
-  yes | ./sdk/tools/bin/sdkmanager --licenses
+  curl -O ${ANDROID_SDK_TOOLS_URL}
+  unzip -q sdk-tools-linux-${ANDROID_SDK_TOOLS_VERSION}.zip -d ${ANDROID_SDK_INSTALL_DIR}
+
+  popd
+
+  yes | ./sdk/tools/bin/sdkmanager --licenses > /dev/null
   ./sdk/tools/bin/sdkmanager platform-tools emulator "platforms;android-18" "system-images;android-18;default;armeabi-v7a"
 fi
 
+yes | ./sdk/tools/bin/sdkmanager --licenses > /dev/null
 ./sdk/tools/bin/sdkmanager --update
+
 popd
 
 if [[ ! -d $ANDROID_NDK_INSTALL_DIR/sysroot/usr/include/arm-linux-androideabi ]];then
@@ -60,5 +67,7 @@ if [[ ! -d $ANDROID_NDK_INSTALL_DIR/sysroot/usr/include/arm-linux-androideabi ]]
 
   popd
 fi
+
+rm -rf "${ANDROID_INSTALL_PREFIX}/downloads"
 
 echo end of mk/travis-install-android
