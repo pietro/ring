@@ -89,7 +89,7 @@ armv7-linux-androideabi)
   avdmanager list avd
 
   pushd $HOME/android/sdk/emulator
-  ./emulator @arm-18 -memory 2048 -no-skin -no-boot-anim -no-window &
+  ./emulator @arm-18 -memory 2048 -no-boot-anim -no-window -no-audio &
   popd
 
   adb wait-for-device

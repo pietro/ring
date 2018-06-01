@@ -34,7 +34,7 @@ ANDROID_NDK_INSTALL_DIR="${ANDROID_INSTALL_PREFIX}/android-18-arm-linux-androide
 mkdir -p "${ANDROID_SDK_INSTALL_DIR}"
 pushd "${ANDROID_INSTALL_PREFIX}"
 
-if [[ ! -f $ANDROID_SDK_INSTALL_DIR/tools/emulator ]];then
+if [[ ! -f $ANDROID_SDK_INSTALL_DIR/tools/bin/sdkmanager ]];then
   mkdir -p "${ANDROID_INSTALL_PREFIX}/downloads"
   pushd "${ANDROID_INSTALL_PREFIX}/downloads"
 
