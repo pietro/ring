@@ -15,39 +15,23 @@ matrix:
       os: linux
       dist: trusty
       sudo: required
-      addons:
-        apt:
-          packages:
-            - expect
 
     - env: TARGET_X=armv7-linux-androideabi CC_X=arm-linux-androideabi-gcc FEATURES_X= MODE_X=DEBUG KCOV=0 CFLAGS="-D__ANDROID_API__=18"
       rust: stable
       os: linux
       dist: trusty
       sudo: required
-      addons:
-        apt:
-          packages:
-            - expect
 
     - env: TARGET_X=armv7-linux-androideabi CC_X=arm-linux-androideabi-gcc FEATURES_X=--features=rsa_signing MODE_X=RELWITHDEBINFO KCOV=0 CFLAGS="-D__ANDROID_API__=18"
       rust: stable
       os: linux
       dist: trusty
       sudo: required
-      addons:
-        apt:
-          packages:
-            - expect
 
     - env: TARGET_X=armv7-linux-androideabi CC_X=arm-linux-androideabi-gcc FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0 CFLAGS="-D__ANDROID_API__=18"
       rust: stable
       os: linux
       dist: trusty
       sudo: required
-      addons:
-        apt:
-          packages:
-            - expect
 
 script: if [[ "$TARGET_X" =~ ^a*.*linux-.*eabi && "$MODE_X" == "RELWITHDEBINFO" ]]; then travis_wait 60 mk/travis.sh; else mk/travis.sh; fi

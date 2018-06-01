@@ -21,30 +21,26 @@
 # SOFTWARE.
 set -ex
 
-ANDROID_SDK_VERSION=${ANDROID_SDK_VERSION:-24.4.1}
-ANDROID_SDK_URL=https://dl.google.com/android/android-sdk_r${ANDROID_SDK_VERSION}-linux.tgz
+ANDROID_SDK_TOOLS_VERSION=${ANDROID_SDK_TOOLS_VERSION:-3859397}
+ANDROID_SDK_TOOLS_URL=https://dl.google.com/android/repository/sdk-tools-linux-${ANDROID_SDK_TOOLS_VERSION}.zip
 
 ANDROID_NDK_VERSION=${ANDROID_NDK_VERSION:-17}
 ANDROID_NDK_URL=https://dl.google.com/android/repository/android-ndk-r${ANDROID_NDK_VERSION}-linux-x86_64.zip
 
 ANDROID_INSTALL_PREFIX="${HOME}/android"
-ANDROID_SDK_INSTALL_DIR="${HOME}/android/android-sdk-linux"
+ANDROID_SDK_INSTALL_DIR="${HOME}/android/sdk"
 ANDROID_NDK_INSTALL_DIR="${ANDROID_INSTALL_PREFIX}/android-18-arm-linux-androideabi-4.8"
 
 if [[ ! -f $ANDROID_SDK_INSTALL_DIR/tools/emulator ]];then
-  mkdir -p "${ANDROID_INSTALL_PREFIX}"
+  mkdir -p "${ANDROID_INSTALL_DIR}"
   pushd "${ANDROID_INSTALL_PREFIX}"
 
-  curl ${ANDROID_SDK_URL} | tar -zxf -
+  curl -fo sdk.zip ${ANDROID_SDK_TOOLS_URL}
+  unzip -q sdk.zip ${ANDROID_SDK_INSTALL_DIR}
 
-  expect -c '
-set timeout 600;
-spawn ./android-sdk-linux/tools/android update sdk -a --no-ui --filter tools,platform-tools,android-18,sys-img-armeabi-v7a-android-18;
-expect {
-    "Do you accept the license" { exp_send "y\r" ; exp_continue }
-    eof
-}
-'
+  yes | ./sdk/tools/bin/sdkmanager --licenses
+  ./sdk/tools/bin/sdkmanager platform-tools emulator "platforms;android-18" "system-images;android-18;default;armeabi-v7a"
+
   popd
 fi
 
