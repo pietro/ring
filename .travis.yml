@@ -3,31 +3,33 @@ cache:
   directories:
     - $HOME/kcov-i686-unknown-linux-gnu
     - $HOME/kcov-x86_64-unknown-linux-gnu
-    - $HOME/android
+    - $HOME/android/sdk/tools
+    - $HOME/android/ndk
+  timeout: 300
 matrix:
   fast_finish: true
   allow_failures:
     - rust: nightly
   include:
-    - env: TARGET_X=armv7-linux-androideabi CC_X=arm-linux-androideabi-gcc FEATURES_X=--features=rsa_signing MODE_X=DEBUG KCOV=0 CFLAGS="-D__ANDROID_API__=18"
+    - env: TARGET_X=armv7-linux-androideabi CC_X=arm-linux-androideabi-clang FEATURES_X=--features=rsa_signing MODE_X=DEBUG KCOV=0
       rust: stable
       os: linux
       dist: trusty
       sudo: required
 
-    - env: TARGET_X=armv7-linux-androideabi CC_X=arm-linux-androideabi-gcc FEATURES_X= MODE_X=DEBUG KCOV=0 CFLAGS="-D__ANDROID_API__=18"
+    - env: TARGET_X=armv7-linux-androideabi CC_X=arm-linux-androideabi-clang FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: stable
       os: linux
       dist: trusty
       sudo: required
 
-    - env: TARGET_X=armv7-linux-androideabi CC_X=arm-linux-androideabi-gcc FEATURES_X=--features=rsa_signing MODE_X=RELWITHDEBINFO KCOV=0 CFLAGS="-D__ANDROID_API__=18"
+    - env: TARGET_X=armv7-linux-androideabi CC_X=arm-linux-androideabi-clang FEATURES_X=--features=rsa_signing MODE_X=RELWITHDEBINFO KCOV=0
       rust: stable
       os: linux
       dist: trusty
       sudo: required
 
-    - env: TARGET_X=armv7-linux-androideabi CC_X=arm-linux-androideabi-gcc FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0 CFLAGS="-D__ANDROID_API__=18"
+    - env: TARGET_X=armv7-linux-androideabi CC_X=arm-linux-androideabi-clang FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: stable
       os: linux
       dist: trusty

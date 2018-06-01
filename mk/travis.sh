@@ -30,7 +30,7 @@ armv7-linux-androideabi)
   # install the android sdk/ndk
   mk/travis-install-android.sh
 
-  export PATH=$HOME/android/android-18-arm-linux-androideabi-4.8/bin:$PATH
+  export PATH=$HOME/android/ndk/bin:$PATH
   export PATH=$HOME/android/sdk/platform-tools:$PATH
   export PATH=$HOME/android/sdk/tools/bin:$PATH
   ;;

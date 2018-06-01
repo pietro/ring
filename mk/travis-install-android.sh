@@ -29,10 +29,7 @@ ANDROID_NDK_URL=https://dl.google.com/android/repository/android-ndk-r${ANDROID_
 
 ANDROID_INSTALL_PREFIX="${HOME}/android"
 ANDROID_SDK_INSTALL_DIR="${ANDROID_INSTALL_PREFIX}/sdk"
-ANDROID_NDK_INSTALL_DIR="${ANDROID_INSTALL_PREFIX}/android-18-arm-linux-androideabi-4.8"
-
-mkdir -p "${ANDROID_SDK_INSTALL_DIR}"
-pushd "${ANDROID_INSTALL_PREFIX}"
+ANDROID_NDK_INSTALL_DIR="${ANDROID_INSTALL_PREFIX}/ndk"
 
 if [[ ! -f $ANDROID_SDK_INSTALL_DIR/tools/bin/sdkmanager ]];then
   mkdir -p "${ANDROID_INSTALL_PREFIX}/downloads"
@@ -42,17 +39,18 @@ if [[ ! -f $ANDROID_SDK_INSTALL_DIR/tools/bin/sdkmanager ]];then
   unzip -q sdk-tools-linux-${ANDROID_SDK_TOOLS_VERSION}.zip -d ${ANDROID_SDK_INSTALL_DIR}
 
   popd
-
-  yes | ./sdk/tools/bin/sdkmanager --licenses > /dev/null
-  ./sdk/tools/bin/sdkmanager platform-tools emulator "platforms;android-18" "system-images;android-18;default;armeabi-v7a"
 fi
 
+mkdir -p "${ANDROID_SDK_INSTALL_DIR}"
+pushd "${ANDROID_INSTALL_PREFIX}"
+
 yes | ./sdk/tools/bin/sdkmanager --licenses > /dev/null
+./sdk/tools/bin/sdkmanager platform-tools emulator "platforms;android-18" "system-images;android-18;default;armeabi-v7a"
 ./sdk/tools/bin/sdkmanager --update
 
 popd
 
-if [[ ! -d $ANDROID_NDK_INSTALL_DIR/sysroot/usr/include/arm-linux-androideabi ]];then
+if [[ ! -d $ANDROID_NDK_INSTALL_DIR/bin/arm-linux-androideabi-clang ]];then
   mkdir -p "${ANDROID_INSTALL_PREFIX}/downloads"
   pushd "${ANDROID_INSTALL_PREFIX}/downloads"
 
