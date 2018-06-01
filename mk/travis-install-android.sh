@@ -40,6 +40,7 @@ if [[ ! -f $ANDROID_SDK_INSTALL_DIR/tools/emulator ]];then
 
   yes | ./sdk/tools/bin/sdkmanager --licenses
   ./sdk/tools/bin/sdkmanager platform-tools emulator "platforms;android-18" "system-images;android-18;default;armeabi-v7a"
+  ./sdk/tools/bin/sdkmanager --update platform-tools emulator "platforms;android-18" "system-images;android-18;default;armeabi-v7a"
 
   popd
 fi
