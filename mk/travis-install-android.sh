@@ -32,7 +32,7 @@ ANDROID_SDK_INSTALL_DIR="${HOME}/android/sdk"
 ANDROID_NDK_INSTALL_DIR="${ANDROID_INSTALL_PREFIX}/android-18-arm-linux-androideabi-4.8"
 
 if [[ ! -f $ANDROID_SDK_INSTALL_DIR/tools/emulator ]];then
-  mkdir -p "${ANDROID_INSTALL_DIR}"
+  mkdir -p "${ANDROID_SDK_INSTALL_DIR}"
   pushd "${ANDROID_INSTALL_PREFIX}"
 
   curl -fo sdk.zip ${ANDROID_SDK_TOOLS_URL}
