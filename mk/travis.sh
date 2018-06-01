@@ -31,10 +31,8 @@ armv7-linux-androideabi)
   mk/travis-install-android.sh
 
   export PATH=$HOME/android/android-18-arm-linux-androideabi-4.8/bin:$PATH
-  export PATH=$HOME/android/sdk/emulator:$PATH
   export PATH=$HOME/android/sdk/platform-tools:$PATH
   export PATH=$HOME/android/sdk/tools/bin:$PATH
-  export PATH=$HOME/android/sdk/tools:$PATH
   ;;
 *)
   ;;
@@ -90,7 +88,10 @@ armv7-linux-androideabi)
   echo no | avdmanager create avd -n arm-18 -k "system-images;android-18;default;armeabi-v7a"
   avdmanager list avd
 
-  emulator @arm-18 -memory 2048 -no-skin -no-boot-anim -no-window &
+  pushd $HOME/android/sdk/emulator
+  ./emulator @arm-18 -memory 2048 -no-skin -no-boot-anim -no-window &
+  popd
+
   adb wait-for-device
 
   # Run the unit tests first. The file named ring-<something> in $target_dir is
