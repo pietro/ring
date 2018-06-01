@@ -32,6 +32,7 @@ armv7-linux-androideabi)
 
   export PATH=$HOME/android/android-18-arm-linux-androideabi-4.8/bin:$PATH
   export PATH=$HOME/android/android-sdk-linux/platform-tools:$PATH
+  export PATH=$HOME/android/android-sdk-linux/tools/bin:$PATH
   export PATH=$HOME/android/android-sdk-linux/tools:$PATH
   ;;
 *)
@@ -85,8 +86,8 @@ armv7-linux-androideabi)
 
   # Building the AVD is slow. Do it here, after we build the code so that any
   # build breakage is reported sooner, instead of being delayed by this.
-  echo no | android create avd --name arm-18 --target android-18 --abi armeabi-v7a
-  android list avd
+  echo no | avdmanager create avd -n arm-18 -k "system-images;android-18;default;armeabi-v7a"
+  avdmanager list avd
 
   emulator @arm-18 -memory 2048 -no-skin -no-boot-anim -no-window &
   adb wait-for-device
