@@ -28,22 +28,22 @@ ANDROID_NDK_VERSION=${ANDROID_NDK_VERSION:-17}
 ANDROID_NDK_URL=https://dl.google.com/android/repository/android-ndk-r${ANDROID_NDK_VERSION}-linux-x86_64.zip
 
 ANDROID_INSTALL_PREFIX="${HOME}/android"
-ANDROID_SDK_INSTALL_DIR="${HOME}/android/sdk"
+ANDROID_SDK_INSTALL_DIR="${ANDROID_INSTALL_PREFIX}/sdk"
 ANDROID_NDK_INSTALL_DIR="${ANDROID_INSTALL_PREFIX}/android-18-arm-linux-androideabi-4.8"
 
-if [[ ! -f $ANDROID_SDK_INSTALL_DIR/tools/emulator ]];then
-  mkdir -p "${ANDROID_SDK_INSTALL_DIR}"
-  pushd "${ANDROID_INSTALL_PREFIX}"
+mkdir -p "${ANDROID_SDK_INSTALL_DIR}"
+pushd "${ANDROID_INSTALL_PREFIX}"
 
+if [[ ! -f $ANDROID_SDK_INSTALL_DIR/tools/emulator ]];then
   curl -fo sdk.zip ${ANDROID_SDK_TOOLS_URL}
   unzip -q sdk.zip -d ${ANDROID_SDK_INSTALL_DIR}
 
   yes | ./sdk/tools/bin/sdkmanager --licenses
   ./sdk/tools/bin/sdkmanager platform-tools emulator "platforms;android-18" "system-images;android-18;default;armeabi-v7a"
-  ./sdk/tools/bin/sdkmanager --update
-
-  popd
 fi
+
+./sdk/tools/bin/sdkmanager --update
+popd
 
 if [[ ! -d $ANDROID_NDK_INSTALL_DIR/sysroot/usr/include/arm-linux-androideabi ]];then
   mkdir -p "${ANDROID_INSTALL_PREFIX}/downloads"

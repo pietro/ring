@@ -31,9 +31,9 @@ armv7-linux-androideabi)
   mk/travis-install-android.sh
 
   export PATH=$HOME/android/android-18-arm-linux-androideabi-4.8/bin:$PATH
-  export PATH=$HOME/android/android-sdk-linux/platform-tools:$PATH
-  export PATH=$HOME/android/android-sdk-linux/tools/bin:$PATH
-  export PATH=$HOME/android/android-sdk-linux/tools:$PATH
+  export PATH=$HOME/android/sdk/platform-tools:$PATH
+  export PATH=$HOME/android/sdk/tools/bin:$PATH
+  export PATH=$HOME/android/sdk/tools:$PATH
   ;;
 *)
   ;;
