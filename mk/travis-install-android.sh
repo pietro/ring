@@ -36,7 +36,7 @@ if [[ ! -f $ANDROID_SDK_INSTALL_DIR/tools/emulator ]];then
   pushd "${ANDROID_INSTALL_PREFIX}"
 
   curl -fo sdk.zip ${ANDROID_SDK_TOOLS_URL}
-  unzip -q sdk.zip ${ANDROID_SDK_INSTALL_DIR}
+  unzip -q sdk.zip -d ${ANDROID_SDK_INSTALL_DIR}
 
   yes | ./sdk/tools/bin/sdkmanager --licenses
   ./sdk/tools/bin/sdkmanager platform-tools emulator "platforms;android-18" "system-images;android-18;default;armeabi-v7a"
