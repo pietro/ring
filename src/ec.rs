@@ -12,7 +12,7 @@
 // OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 // CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-use crate::{error, rand};
+use crate::{bits::BitLength, error, rand};
 
 pub use self::keys::{KeyPair, PublicKey, Seed};
 
@@ -40,8 +40,8 @@ pub enum CurveID {
     P384,
 }
 
-const ELEM_MAX_BITS: usize = 384;
-pub const ELEM_MAX_BYTES: usize = (ELEM_MAX_BITS + 7) / 8;
+const ELEM_MAX_BITS: BitLength = BitLength::from_usize_bits(384);
+pub const ELEM_MAX_BYTES: usize = ELEM_MAX_BITS.as_usize_bytes();
 
 pub const SCALAR_MAX_BYTES: usize = ELEM_MAX_BYTES;
 const SEED_MAX_BYTES: usize = ELEM_MAX_BYTES;

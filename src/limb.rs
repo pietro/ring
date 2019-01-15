@@ -18,7 +18,7 @@
 //! Limbs ordered least-significant-limb to most-significant-limb. The bits
 //! limbs use the native endianness.
 
-use crate::{c, error};
+use crate::{bits::BitLength, c, error};
 use untrusted;
 
 #[cfg(any(test, feature = "use_heap"))]
@@ -33,9 +33,9 @@ pub type Limb = u64;
 #[cfg(target_pointer_width = "32")]
 pub type Limb = u32;
 #[cfg(target_pointer_width = "64")]
-pub const LIMB_BITS: usize = 64;
+const LIMB_BIT_LENGTH: BitLength = BitLength::from_usize_bits(64);
 #[cfg(target_pointer_width = "32")]
-pub const LIMB_BITS: usize = 32;
+const LIMB_BIT_LENGTH: BitLength = BitLength::from_usize_bits(32);
 
 #[allow(trivial_numeric_casts)]
 #[cfg(target_pointer_width = "64")]
@@ -54,7 +54,8 @@ pub enum LimbMask {
     False = 0,
 }
 
-pub const LIMB_BYTES: usize = (LIMB_BITS + 7) / 8;
+pub const LIMB_BITS: usize = LIMB_BIT_LENGTH.as_usize_bits();
+pub const LIMB_BYTES: usize = LIMB_BIT_LENGTH.as_usize_bytes();
 
 #[allow(dead_code)]
 #[cfg(feature = "use_heap")]
@@ -110,7 +111,7 @@ pub fn limbs_equal_limb_constant_time(a: &[Limb], b: Limb) -> LimbMask {
 // most significant bit (It's 1, unless the input is zero, in which case it's
 // zero.)
 #[cfg(any(test, feature = "use_heap"))]
-pub fn limbs_minimal_bits(a: &[Limb]) -> bits::BitLength {
+pub fn limbs_minimal_bits(a: &[Limb]) -> BitLength {
     for num_limbs in (1..=a.len()).rev() {
         let high_limb = a[num_limbs - 1];
 

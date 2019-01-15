@@ -37,7 +37,7 @@ impl BitLength {
     }
 
     #[inline]
-    pub fn as_usize_bits(&self) -> usize { self.0 }
+    pub const fn as_usize_bits(&self) -> usize { self.0 }
 
     #[cfg(feature = "use_heap")]
     #[inline]
@@ -49,6 +49,11 @@ impl BitLength {
         let round_up = ((self.0 >> 2) | (self.0 >> 1) | self.0) & 1;
 
         (self.0 / 8) + round_up
+    }
+
+    #[inline]
+    pub const fn as_usize_bytes(&self) -> usize {
+        ((self.0 + 7) / 8)
     }
 
     #[cfg(feature = "use_heap")]

@@ -12,7 +12,7 @@
 // OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 // CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-use crate::{ec, error, rand};
+use crate::{bits::BitLength, ec, error, rand};
 
 /// A key agreement algorithm.
 macro_rules! suite_b_curve {
@@ -33,8 +33,8 @@ macro_rules! suite_b_curve {
         /// [Suite B Implementer's Guide to NIST SP 800-56A]:
         ///     https://github.com/briansmith/ring/blob/master/doc/ecdh.pdf
         pub static $NAME: ec::Curve = ec::Curve {
-            public_key_len: 1 + (2 * (($bits + 7) / 8)),
-            elem_scalar_seed_len: ($bits + 7) / 8,
+            public_key_len: 1 + (2 * BitLength::from_usize_bits($bits).as_usize_bytes()),
+            elem_scalar_seed_len: BitLength::from_usize_bits($bits).as_usize_bytes(),
             id: $id,
             check_private_key_bytes: $check_private_key_bytes,
             generate_private_key: $generate_private_key,
