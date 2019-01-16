@@ -40,13 +40,13 @@ impl Key {
             Implementation::HWAES => {
                 extern "C" {
                     fn GFp_aes_hw_set_encrypt_key(
-                        user_key: *const u8, bits: c::uint, key: &mut AES_KEY,
+                        user_key: *const u8, bits: BitLength, key: &mut AES_KEY,
                     ) -> ZeroMeansSuccess;
                 }
                 Result::from(unsafe {
                     GFp_aes_hw_set_encrypt_key(
                         bytes.as_ptr(),
-                        key_bits.as_usize_bits() as c::uint,
+                        key_bits,
                         &mut key,
                     )
                 })?;
@@ -56,13 +56,13 @@ impl Key {
             Implementation::VPAES => {
                 extern "C" {
                     fn GFp_vpaes_set_encrypt_key(
-                        user_key: *const u8, bits: c::uint, key: &mut AES_KEY,
+                        user_key: *const u8, bits: BitLength, key: &mut AES_KEY,
                     ) -> ZeroMeansSuccess;
                 }
                 Result::from(unsafe {
                     GFp_vpaes_set_encrypt_key(
                         bytes.as_ptr(),
-                        key_bits.as_usize_bits() as c::uint,
+                        key_bits,
                         &mut key,
                     )
                 })?;
@@ -71,13 +71,13 @@ impl Key {
             _ => {
                 extern "C" {
                     fn GFp_aes_nohw_set_encrypt_key(
-                        user_key: *const u8, bits: c::uint, key: &mut AES_KEY,
+                        user_key: *const u8, bits: BitLength, key: &mut AES_KEY,
                     ) -> ZeroMeansSuccess;
                 }
                 Result::from(unsafe {
                     GFp_aes_nohw_set_encrypt_key(
                         bytes.as_ptr(),
-                        key_bits.as_usize_bits() as c::uint,
+                        key_bits,
                         &mut key,
                     )
                 })?;

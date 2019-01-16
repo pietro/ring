@@ -14,6 +14,7 @@
 
 use crate::error;
 
+#[repr(transparent)]
 #[derive(Clone, Copy, Debug, Eq, PartialEq, PartialOrd)]
 pub struct BitLength(usize);
 
