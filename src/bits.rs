@@ -41,14 +41,15 @@ impl BitLength {
 
     #[cfg(feature = "use_heap")]
     #[inline]
-    pub fn as_usize_bytes_rounded_up(&self) -> usize {
+    pub const fn as_usize_bytes_rounded_up(&self) -> usize {
         // Equivalent to (self.0 + 7) / 8, except with no potential for
         // overflow and without branches.
 
         // Branchless round_up = if self.0 & 0b111 != 0 { 1 } else { 0 };
-        let round_up = ((self.0 >> 2) | (self.0 >> 1) | self.0) & 1;
+        // Can't use local variables in const fn. So, round_up is directly in the return statement.
+        //let round_up = ((self.0 >> 2) | (self.0 >> 1) | self.0) & 1;
 
-        (self.0 / 8) + round_up
+        (self.0 / 8) + (((self.0 >> 2) | (self.0 >> 1) | self.0) & 1)
     }
 
     #[inline]

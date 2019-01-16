@@ -41,7 +41,7 @@ pub enum CurveID {
 }
 
 const ELEM_MAX_BITS: BitLength = BitLength::from_usize_bits(384);
-pub const ELEM_MAX_BYTES: usize = ELEM_MAX_BITS.as_usize_bytes();
+pub const ELEM_MAX_BYTES: usize = ELEM_MAX_BITS.as_usize_bytes_rounded_up();
 
 pub const SCALAR_MAX_BYTES: usize = ELEM_MAX_BYTES;
 const SEED_MAX_BYTES: usize = ELEM_MAX_BYTES;

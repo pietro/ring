@@ -55,7 +55,7 @@ pub enum LimbMask {
 }
 
 pub const LIMB_BITS: usize = LIMB_BIT_LENGTH.as_usize_bits();
-pub const LIMB_BYTES: usize = LIMB_BIT_LENGTH.as_usize_bytes();
+pub const LIMB_BYTES: usize = LIMB_BIT_LENGTH.as_usize_bytes_rounded_up();
 
 #[allow(dead_code)]
 #[cfg(feature = "use_heap")]
