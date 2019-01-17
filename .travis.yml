@@ -31,7 +31,6 @@ matrix:
       rust: stable
       os: linux
       dist: trusty
-      sudo: required
       addons:
         apt:
           packages:
@@ -44,7 +43,6 @@ matrix:
       rust: stable
       os: linux
       dist: trusty
-      sudo: required
       addons:
         apt:
           packages:
@@ -56,36 +54,27 @@ matrix:
     - env: TARGET_X=x86_64-unknown-linux-gnu  FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: stable
       os: linux
+      dist: trusty
 
     - env: TARGET_X=x86_64-unknown-linux-gnu  FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: stable
       os: linux
+      dist: trusty
 
-    - env: TARGET_X=x86_64-unknown-linux-gnu CC_X=clang-5.0 FEATURES_X= MODE_X=DEBUG KCOV=0
+    - env: TARGET_X=x86_64-unknown-linux-gnu CC_X=clang FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: stable
       os: linux
-      addons:
-        apt:
-          packages:
-            - clang-5.0
-          sources:
-            - llvm-toolchain-trusty-5.0
-            - ubuntu-toolchain-r-test
+      dist: trusty
 
-    - env: TARGET_X=x86_64-unknown-linux-gnu CC_X=clang-5.0 FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
+    - env: TARGET_X=x86_64-unknown-linux-gnu CC_X=clang FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: stable
       os: linux
-      addons:
-        apt:
-          packages:
-            - clang-5.0
-          sources:
-            - llvm-toolchain-trusty-5.0
-            - ubuntu-toolchain-r-test
+      dist: trusty
 
     - env: TARGET_X=x86_64-unknown-linux-gnu CC_X=gcc-7 FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: stable
       os: linux
+      dist: trusty
       addons:
         apt:
           packages:
@@ -96,6 +85,7 @@ matrix:
     - env: TARGET_X=x86_64-unknown-linux-gnu CC_X=gcc-7 FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: stable
       os: linux
+      dist: trusty
       addons:
         apt:
           packages:
@@ -107,7 +97,6 @@ matrix:
       rust: stable
       os: linux
       dist: trusty
-      sudo: required
       addons:
         apt:
           packages:
@@ -120,7 +109,6 @@ matrix:
       rust: stable
       os: linux
       dist: trusty
-      sudo: required
       addons:
         apt:
           packages:
@@ -132,6 +120,7 @@ matrix:
     - env: TARGET_X=i686-unknown-linux-gnu  FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: stable
       os: linux
+      dist: trusty
       addons:
         apt:
           packages:
@@ -143,6 +132,7 @@ matrix:
     - env: TARGET_X=i686-unknown-linux-gnu  FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: stable
       os: linux
+      dist: trusty
       addons:
         apt:
           packages:
@@ -151,35 +141,34 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
 
-    - env: TARGET_X=i686-unknown-linux-gnu CC_X=clang-5.0 FEATURES_X= MODE_X=DEBUG KCOV=0
+    - env: TARGET_X=i686-unknown-linux-gnu CC_X=clang FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: stable
       os: linux
+      dist: trusty
       addons:
         apt:
           packages:
-            - clang-5.0
             - gcc-multilib
             - libc6-dev-i386
           sources:
-            - llvm-toolchain-trusty-5.0
             - ubuntu-toolchain-r-test
 
-    - env: TARGET_X=i686-unknown-linux-gnu CC_X=clang-5.0 FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
+    - env: TARGET_X=i686-unknown-linux-gnu CC_X=clang FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: stable
       os: linux
+      dist: trusty
       addons:
         apt:
           packages:
-            - clang-5.0
             - gcc-multilib
             - libc6-dev-i386
           sources:
-            - llvm-toolchain-trusty-5.0
             - ubuntu-toolchain-r-test
 
     - env: TARGET_X=i686-unknown-linux-gnu CC_X=gcc-7 FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: stable
       os: linux
+      dist: trusty
       addons:
         apt:
           packages:
@@ -192,6 +181,7 @@ matrix:
     - env: TARGET_X=i686-unknown-linux-gnu CC_X=gcc-7 FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: stable
       os: linux
+      dist: trusty
       addons:
         apt:
           packages:
@@ -205,7 +195,6 @@ matrix:
       rust: stable
       os: linux
       dist: trusty
-      sudo: required
       addons:
         apt:
           packages:
@@ -218,7 +207,6 @@ matrix:
       rust: stable
       os: linux
       dist: trusty
-      sudo: required
       addons:
         apt:
           packages:
@@ -241,7 +229,6 @@ matrix:
       rust: nightly
       os: linux
       dist: trusty
-      sudo: required
       addons:
         apt:
           packages:
@@ -254,7 +241,6 @@ matrix:
       rust: nightly
       os: linux
       dist: trusty
-      sudo: required
       addons:
         apt:
           packages:
@@ -266,36 +252,27 @@ matrix:
     - env: TARGET_X=x86_64-unknown-linux-gnu  FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: nightly
       os: linux
+      dist: trusty
 
     - env: TARGET_X=x86_64-unknown-linux-gnu  FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: nightly
       os: linux
+      dist: trusty
 
-    - env: TARGET_X=x86_64-unknown-linux-gnu CC_X=clang-5.0 FEATURES_X= MODE_X=DEBUG KCOV=0
+    - env: TARGET_X=x86_64-unknown-linux-gnu CC_X=clang FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: nightly
       os: linux
-      addons:
-        apt:
-          packages:
-            - clang-5.0
-          sources:
-            - llvm-toolchain-trusty-5.0
-            - ubuntu-toolchain-r-test
+      dist: trusty
 
-    - env: TARGET_X=x86_64-unknown-linux-gnu CC_X=clang-5.0 FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
+    - env: TARGET_X=x86_64-unknown-linux-gnu CC_X=clang FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: nightly
       os: linux
-      addons:
-        apt:
-          packages:
-            - clang-5.0
-          sources:
-            - llvm-toolchain-trusty-5.0
-            - ubuntu-toolchain-r-test
+      dist: trusty
 
     - env: TARGET_X=x86_64-unknown-linux-gnu CC_X=gcc-7 FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: nightly
       os: linux
+      dist: trusty
       addons:
         apt:
           packages:
@@ -306,6 +283,7 @@ matrix:
     - env: TARGET_X=x86_64-unknown-linux-gnu CC_X=gcc-7 FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: nightly
       os: linux
+      dist: trusty
       addons:
         apt:
           packages:
@@ -317,7 +295,6 @@ matrix:
       rust: nightly
       os: linux
       dist: trusty
-      sudo: required
       addons:
         apt:
           packages:
@@ -330,7 +307,6 @@ matrix:
       rust: nightly
       os: linux
       dist: trusty
-      sudo: required
       addons:
         apt:
           packages:
@@ -342,6 +318,7 @@ matrix:
     - env: TARGET_X=i686-unknown-linux-gnu  FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: nightly
       os: linux
+      dist: trusty
       addons:
         apt:
           packages:
@@ -353,6 +330,7 @@ matrix:
     - env: TARGET_X=i686-unknown-linux-gnu  FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: nightly
       os: linux
+      dist: trusty
       addons:
         apt:
           packages:
@@ -361,35 +339,34 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
 
-    - env: TARGET_X=i686-unknown-linux-gnu CC_X=clang-5.0 FEATURES_X= MODE_X=DEBUG KCOV=0
+    - env: TARGET_X=i686-unknown-linux-gnu CC_X=clang FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: nightly
       os: linux
+      dist: trusty
       addons:
         apt:
           packages:
-            - clang-5.0
             - gcc-multilib
             - libc6-dev-i386
           sources:
-            - llvm-toolchain-trusty-5.0
             - ubuntu-toolchain-r-test
 
-    - env: TARGET_X=i686-unknown-linux-gnu CC_X=clang-5.0 FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
+    - env: TARGET_X=i686-unknown-linux-gnu CC_X=clang FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: nightly
       os: linux
+      dist: trusty
       addons:
         apt:
           packages:
-            - clang-5.0
             - gcc-multilib
             - libc6-dev-i386
           sources:
-            - llvm-toolchain-trusty-5.0
             - ubuntu-toolchain-r-test
 
     - env: TARGET_X=i686-unknown-linux-gnu CC_X=gcc-7 FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: nightly
       os: linux
+      dist: trusty
       addons:
         apt:
           packages:
@@ -402,6 +379,7 @@ matrix:
     - env: TARGET_X=i686-unknown-linux-gnu CC_X=gcc-7 FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: nightly
       os: linux
+      dist: trusty
       addons:
         apt:
           packages:
@@ -415,7 +393,6 @@ matrix:
       rust: nightly
       os: linux
       dist: trusty
-      sudo: required
       addons:
         apt:
           packages:
@@ -428,7 +405,6 @@ matrix:
       rust: nightly
       os: linux
       dist: trusty
-      sudo: required
       addons:
         apt:
           packages:
@@ -451,7 +427,6 @@ matrix:
       rust: beta
       os: linux
       dist: trusty
-      sudo: required
       addons:
         apt:
           packages:
@@ -464,7 +439,6 @@ matrix:
       rust: beta
       os: linux
       dist: trusty
-      sudo: required
       addons:
         apt:
           packages:
@@ -476,36 +450,27 @@ matrix:
     - env: TARGET_X=x86_64-unknown-linux-gnu  FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: beta
       os: linux
+      dist: trusty
 
     - env: TARGET_X=x86_64-unknown-linux-gnu  FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: beta
       os: linux
+      dist: trusty
 
-    - env: TARGET_X=x86_64-unknown-linux-gnu CC_X=clang-5.0 FEATURES_X= MODE_X=DEBUG KCOV=0
+    - env: TARGET_X=x86_64-unknown-linux-gnu CC_X=clang FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: beta
       os: linux
-      addons:
-        apt:
-          packages:
-            - clang-5.0
-          sources:
-            - llvm-toolchain-trusty-5.0
-            - ubuntu-toolchain-r-test
+      dist: trusty
 
-    - env: TARGET_X=x86_64-unknown-linux-gnu CC_X=clang-5.0 FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
+    - env: TARGET_X=x86_64-unknown-linux-gnu CC_X=clang FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: beta
       os: linux
-      addons:
-        apt:
-          packages:
-            - clang-5.0
-          sources:
-            - llvm-toolchain-trusty-5.0
-            - ubuntu-toolchain-r-test
+      dist: trusty
 
     - env: TARGET_X=x86_64-unknown-linux-gnu CC_X=gcc-7 FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: beta
       os: linux
+      dist: trusty
       addons:
         apt:
           packages:
@@ -516,6 +481,7 @@ matrix:
     - env: TARGET_X=x86_64-unknown-linux-gnu CC_X=gcc-7 FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: beta
       os: linux
+      dist: trusty
       addons:
         apt:
           packages:
@@ -527,7 +493,6 @@ matrix:
       rust: beta
       os: linux
       dist: trusty
-      sudo: required
       addons:
         apt:
           packages:
@@ -540,7 +505,6 @@ matrix:
       rust: beta
       os: linux
       dist: trusty
-      sudo: required
       addons:
         apt:
           packages:
@@ -552,6 +516,7 @@ matrix:
     - env: TARGET_X=i686-unknown-linux-gnu  FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: beta
       os: linux
+      dist: trusty
       addons:
         apt:
           packages:
@@ -563,6 +528,7 @@ matrix:
     - env: TARGET_X=i686-unknown-linux-gnu  FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: beta
       os: linux
+      dist: trusty
       addons:
         apt:
           packages:
@@ -571,35 +537,34 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
 
-    - env: TARGET_X=i686-unknown-linux-gnu CC_X=clang-5.0 FEATURES_X= MODE_X=DEBUG KCOV=0
+    - env: TARGET_X=i686-unknown-linux-gnu CC_X=clang FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: beta
       os: linux
+      dist: trusty
       addons:
         apt:
           packages:
-            - clang-5.0
             - gcc-multilib
             - libc6-dev-i386
           sources:
-            - llvm-toolchain-trusty-5.0
             - ubuntu-toolchain-r-test
 
-    - env: TARGET_X=i686-unknown-linux-gnu CC_X=clang-5.0 FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
+    - env: TARGET_X=i686-unknown-linux-gnu CC_X=clang FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: beta
       os: linux
+      dist: trusty
       addons:
         apt:
           packages:
-            - clang-5.0
             - gcc-multilib
             - libc6-dev-i386
           sources:
-            - llvm-toolchain-trusty-5.0
             - ubuntu-toolchain-r-test
 
     - env: TARGET_X=i686-unknown-linux-gnu CC_X=gcc-7 FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: beta
       os: linux
+      dist: trusty
       addons:
         apt:
           packages:
@@ -612,6 +577,7 @@ matrix:
     - env: TARGET_X=i686-unknown-linux-gnu CC_X=gcc-7 FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: beta
       os: linux
+      dist: trusty
       addons:
         apt:
           packages:
@@ -625,7 +591,6 @@ matrix:
       rust: beta
       os: linux
       dist: trusty
-      sudo: required
       addons:
         apt:
           packages:
@@ -638,7 +603,6 @@ matrix:
       rust: beta
       os: linux
       dist: trusty
-      sudo: required
       addons:
         apt:
           packages:
