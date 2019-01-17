@@ -116,12 +116,9 @@ def format_entry(os, target, compiler, rust, mode, features):
     # GCC 7 was picked arbitrarily to restrict coverage report to one build for
     # efficiency reasons.
     #
-    # Cargo passes RUSTFLAGS to rustc only in Rust 1.9 and later. When Rust 1.9
-    # is released then we can change this to run (also) on the stable channel.
-    #
     # DEBUG mode is needed because debug symbols are needed for coverage
     # tracking.
-    kcov = (os == "linux" and compiler == "gcc-5" and rust == "nightly" and
+    kcov = (os == "linux" and compiler == "gcc-7" and rust == "stable" and
             mode == "DEBUG")
 
     target_words = target.split("-")
@@ -180,6 +177,7 @@ def format_entry(os, target, compiler, rust, mode, features):
             "target" : target,
             "os" : os,
             }
+def get_macos_packages_to_install(target, compiler, arch, kcov):
 
 def get_linux_packages_to_install(target, compiler, arch, kcov):
     if compiler in ["", linux_default_clang]:
@@ -189,6 +187,9 @@ def get_linux_packages_to_install(target, compiler, arch, kcov):
     else:
         packages = []
 
+    if kcov:
+        packages += [replace_cc_with_cxx("linux", compiler)]
+
     if target == "aarch64-unknown-linux-gnu":
         packages += ["gcc-aarch64-linux-gnu",
                      "libc6-dev-arm64-cross"]
@@ -196,15 +197,16 @@ def get_linux_packages_to_install(target, compiler, arch, kcov):
         packages += ["gcc-arm-linux-gnueabihf",
                      "libc6-dev-armhf-cross"]
     if target == "armv7-linux-androideabi":
-        packages += ["expect",
-                     "openjdk-6-jre-headless"]
+        packages += ["expect"]
 
     if arch == "i686":
         if kcov == True:
-            packages += ["libcurl3:i386",
+            packages += [replace_cc_with_cxx("linux", compiler) + "-multilib",
+                         "libcurl3:i386",
                          "libcurl4-openssl-dev:i386",
                          "libdw-dev:i386",
                          "libelf-dev:i386",
+                         "libiberty-dev:i386",
                          "libkrb5-dev:i386",
                          "libssl-dev:i386"]
 
@@ -221,7 +223,8 @@ def get_linux_packages_to_install(target, compiler, arch, kcov):
             packages += ["libcurl4-openssl-dev",
                          "libelf-dev",
                          "libdw-dev",
-                         "binutils-dev"]
+                         "binutils-dev",
+                         "libiberty-dev"]
     elif arch not in ["aarch64", "arm", "armv7"]:
         raise ValueError("unexpected arch: %s" % arch)
 
@@ -236,14 +239,21 @@ def get_sources_for_package(package):
         # Stuff in llvm-toolchain-trusty depends on stuff in the toolchain
         # packages.
         return [llvm_toolchain, ubuntu_toolchain]
-    else:
+    elif package.startswith("gcc-"):
         return [ubuntu_toolchain]
+    else:
+        return []
 
 def get_cc(sys, compiler):
     if sys == "linux" and compiler == linux_default_clang:
         return "clang"
 
     return compiler
+
+def replace_cc_with_cxx(sys, compiler):
+    return get_cc(sys, compiler) \
+               .replace("gcc", "g++") \
+               .replace("clang", "clang++")
 
 def main():
     # Make a backup of the file we are about to update.
