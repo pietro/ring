@@ -100,9 +100,15 @@ entry_template = """
 
 entry_indent = "      "
 
-entry_packages_template = """
+entry_linux_packages_template = """
       addons:
         apt:
+          packages:
+            %(packages)s"""
+
+entry_macos_packages_template = """
+      addons:
+        homebrew:
           packages:
             %(packages)s"""
 
@@ -111,15 +117,15 @@ entry_sources_template = """
             %(sources)s"""
 
 def format_entry(os, target, compiler, rust, mode, features):
-    # Currently kcov only runs on Linux.
+    # Currently kcov only runs on Linux and MacOS.
     #
     # GCC 7 was picked arbitrarily to restrict coverage report to one build for
     # efficiency reasons.
     #
     # DEBUG mode is needed because debug symbols are needed for coverage
     # tracking.
-    kcov = (os == "linux" and compiler == "gcc-7" and rust == "stable" and
-            mode == "DEBUG")
+    kcov = (((os == "linux" and compiler == "gcc-7") or os == "osx")
+            and rust == "stable" and mode == "DEBUG")
 
     target_words = target.split("-")
     arch = target_words[0]
@@ -149,7 +155,7 @@ def format_entry(os, target, compiler, rust, mode, features):
 
     if sys == "linux":
         if packages:
-            template += entry_packages_template
+            template += entry_linux_packages_template
         if sources:
             template += entry_sources_template
     else:
@@ -160,6 +166,9 @@ def format_entry(os, target, compiler, rust, mode, features):
 
     if os == "osx":
         os += "\n" + entry_indent + "osx_image: xcode10.1"
+        packages = sorted(get_macos_packages_to_install(target, compiler, arch, kcov))
+        if packages:
+            template += entry_macos_packages_template
 
     compilers = []
     if cc != "":
@@ -178,6 +187,15 @@ def format_entry(os, target, compiler, rust, mode, features):
             "os" : os,
             }
 def get_macos_packages_to_install(target, compiler, arch, kcov):
+    packages = []
+
+    if kcov == True:
+        packages = ["bash",
+                    "cmake",
+                    "findutils",
+                    "pkgconfig",
+                    "zlib"]
+    return packages
 
 def get_linux_packages_to_install(target, compiler, arch, kcov):
     if compiler in ["", linux_default_clang]:
