@@ -119,6 +119,8 @@ if [[ "$KCOV" == "1" ]]; then
 
   # Add GNU find(1) to MacOS PATH.
   PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"
+  # Add `/usr/bin` to the front of PATH so MacOS will use the system python.
+  PATH="/usr/bin:$PATH"
 
   for test_exe in `find target/$TARGET_X/debug -maxdepth 1 -executable -type f`; do
     ${HOME}/kcov/bin/kcov \
