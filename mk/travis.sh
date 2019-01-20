@@ -91,17 +91,15 @@ else
   target_dir=target/$TARGET_X/debug
 fi
 
-case $TARGET_X in
-armv7-linux-androideabi)
-  cargo test -vv -j2 --no-run ${mode-} ${FEATURES_X-} --target=$TARGET_X
+if [[ "$TARGET_X" =~ android || "$TARGET_X" =~ mips ]]; then
   # TODO: There used to be some logic for running the tests here using the
   # Android emulator. That was removed because something broke this. See
   # https://github.com/briansmith/ring/issues/603.
-  ;;
-*)
+  # TODO: Run MIPS tests once it's supported.
+  cargo test -vv -j2 --no-run ${mode-} ${FEATURES_X-} --target=$TARGET_X
+else
   cargo test -vv -j2 ${mode-} ${FEATURES_X-} --target=$TARGET_X
-  ;;
-esac
+fi
 
 if [[ "$KCOV" == "1" ]]; then
   # kcov reports coverage as a percentage of code *linked into the executable*

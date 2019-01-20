@@ -423,6 +423,94 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
 
+    - env: TARGET_X=mips64-unknown-linux-gnuabi64 CC_X=mips64-linux-gnuabi64-gcc FEATURES_X= MODE_X=DEBUG KCOV=0
+      rust: nightly
+      os: linux
+      dist: xenial
+      addons:
+        apt:
+          packages:
+            - gcc-mips64-linux-gnuabi64
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - env: TARGET_X=mips64-unknown-linux-gnuabi64 CC_X=mips64-linux-gnuabi64-gcc FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
+      rust: nightly
+      os: linux
+      dist: xenial
+      addons:
+        apt:
+          packages:
+            - gcc-mips64-linux-gnuabi64
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - env: TARGET_X=mips64el-unknown-linux-gnuabi64 CC_X=mips64el-linux-gnuabi64-gcc FEATURES_X= MODE_X=DEBUG KCOV=0
+      rust: nightly
+      os: linux
+      dist: xenial
+      addons:
+        apt:
+          packages:
+            - gcc-mips64el-linux-gnuabi64
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - env: TARGET_X=mips64el-unknown-linux-gnuabi64 CC_X=mips64el-linux-gnuabi64-gcc FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
+      rust: nightly
+      os: linux
+      dist: xenial
+      addons:
+        apt:
+          packages:
+            - gcc-mips64el-linux-gnuabi64
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - env: TARGET_X=mipsel-unknown-linux-gnu CC_X=mipsel-linux-gnu-gcc FEATURES_X= MODE_X=DEBUG KCOV=0
+      rust: nightly
+      os: linux
+      dist: xenial
+      addons:
+        apt:
+          packages:
+            - gcc-mipsel-linux-gnu
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - env: TARGET_X=mipsel-unknown-linux-gnu CC_X=mipsel-linux-gnu-gcc FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
+      rust: nightly
+      os: linux
+      dist: xenial
+      addons:
+        apt:
+          packages:
+            - gcc-mipsel-linux-gnu
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - env: TARGET_X=mips-unknown-linux-gnu CC_X=mips-linux-gnu-gcc FEATURES_X= MODE_X=DEBUG KCOV=0
+      rust: nightly
+      os: linux
+      dist: xenial
+      addons:
+        apt:
+          packages:
+            - gcc-mips-linux-gnu
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - env: TARGET_X=mips-unknown-linux-gnu CC_X=mips-linux-gnu-gcc FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
+      rust: nightly
+      os: linux
+      dist: xenial
+      addons:
+        apt:
+          packages:
+            - gcc-mips-linux-gnu
+          sources:
+            - ubuntu-toolchain-r-test
+
     - env: TARGET_X=x86_64-apple-darwin  FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: beta
       os: osx

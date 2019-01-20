@@ -45,6 +45,10 @@ compilers = {
     "aarch64-unknown-linux-gnu" : [ "aarch64-linux-gnu-gcc" ],
     "armv7-linux-androideabi" : [ "arm-linux-androideabi-clang" ],
     "arm-unknown-linux-gnueabihf" : [ "arm-linux-gnueabihf-gcc" ],
+    "mips64-unknown-linux-gnuabi64" : [ "mips64-linux-gnuabi64-gcc" ],
+    "mips64el-unknown-linux-gnuabi64" : [ "mips64el-linux-gnuabi64-gcc" ],
+    "mipsel-unknown-linux-gnu" : [ "mipsel-linux-gnu-gcc" ],
+    "mips-unknown-linux-gnu" : [ "mips-linux-gnu-gcc" ],
     "i686-unknown-linux-gnu" : linux_compilers,
     "x86_64-unknown-linux-gnu" : linux_compilers,
     "x86_64-apple-darwin" : osx_compilers,
@@ -76,17 +80,21 @@ targets = {
         "aarch64-unknown-linux-gnu",
         "i686-unknown-linux-gnu",
         "arm-unknown-linux-gnueabihf",
+        "mips64-unknown-linux-gnuabi64",
+        "mips64el-unknown-linux-gnuabi64",
+        "mipsel-unknown-linux-gnu",
+        "mips-unknown-linux-gnu"
     ],
 }
 
 def format_entries():
-    return "\n".join([format_entry(os, target, compiler, rust, mode, features)
+    return "\n".join(filter(None, [format_entry(os, target, compiler, rust, mode, features)
                       for rust in rusts
                       for os in oss
                       for target in targets[os]
                       for compiler in compilers[target]
                       for mode in modes
-                      for features in feature_sets])
+                      for features in feature_sets]))
 
 # We use alternative names (the "_X" suffix) so that, in mk/travis.sh, we can
 # ensure that we set the specific variables we want and that no relevant
@@ -150,7 +158,12 @@ def format_entry(os, target, compiler, rust, mode, features):
         packages = sorted(get_linux_packages_to_install(target, compiler, arch, kcov))
         sources_with_dups = sum([get_sources_for_package(p) for p in packages],[])
         sources = sorted(list(set(sources_with_dups)))
-        template += """
+
+        if arch.startswith("mips"):
+            template += """
+      dist: xenial"""
+        else:
+            template += """
       dist: trusty"""
 
     if sys == "linux":
@@ -174,6 +187,9 @@ def format_entry(os, target, compiler, rust, mode, features):
     if cc != "":
         compilers += ["CC_X=" + cc]
     compilers += ""
+
+    if arch.startswith("mips") and not rust == "nightly":
+        return ""
 
     return template % {
             "compilers": " ".join(compilers),
@@ -242,7 +258,12 @@ def get_linux_packages_to_install(target, compiler, arch, kcov):
                          "libdw-dev",
                          "binutils-dev",
                          "libiberty-dev"]
-    elif arch not in ["aarch64", "arm", "armv7"]:
+    elif arch.startswith("mips") and compiler.endswith("-gcc"):
+        # ex: compiler mips64el-linux-gnuabi64-gcc, pkg gcc-mips64el-linux-gnuabi64
+        packages += ["gcc-" + compiler.replace("-gcc", "")]
+    elif arch not in ["aarch64", "arm", "armv7",
+                      "mips64", "mips64el",
+                      "mips", "mipsel"]:
         raise ValueError("unexpected arch: %s" % arch)
 
     return packages
