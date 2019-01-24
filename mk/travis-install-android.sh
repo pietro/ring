@@ -29,26 +29,59 @@ ANDROID_NDK_URL=https://dl.google.com/android/repository/android-ndk-r${ANDROID_
 
 ANDROID_INSTALL_PREFIX="${HOME}/android"
 ANDROID_SDK_INSTALL_DIR="${ANDROID_INSTALL_PREFIX}/android-sdk-linux"
-ANDROID_NDK_INSTALL_DIR="${ANDROID_INSTALL_PREFIX}/armv7-linux-androideabi24"
+ANDROID_NDK_INSTALL_DIR="${ANDROID_INSTALL_PREFIX}/${TARGET_X}${ANDROID_API_LEVEL}"
 
-if [[ ! -f $ANDROID_SDK_INSTALL_DIR/tools/emulator ]];then
+case $TARGET_X in
+    aarch64-linux-android)
+        SYS_TAG="arm64-v8a"
+        NDK_ARCH=arm64
+        ;;
+    armv7-linux-androideabi)
+        SYS_TAG="armeabi-v7a"
+        NDK_ARCH=arm
+        ;;
+esac
+
+if [[ ! -d $ANDROID_SDK_INSTALL_DIR ]]; then
+  SDK_PACKAGES="tools,platform-tools"
+
   mkdir -p "${ANDROID_INSTALL_PREFIX}"
   pushd "${ANDROID_INSTALL_PREFIX}"
 
   curl ${ANDROID_SDK_URL} | tar -zxf -
 
-  expect -c '
-set timeout 600;
-spawn ./android-sdk-linux/tools/android update sdk -a --no-ui --filter tools,platform-tools,android-24,sys-img-armeabi-v7a-android-24;
-expect {
-    "Do you accept the license" { exp_send "y\r" ; exp_continue }
-    eof
-}
-'
   popd
 fi
 
-if [[ ! -d $ANDROID_NDK_INSTALL_DIR/sysroot/usr/include/arm-linux-androideabi ]];then
+if [[ ! -d $ANDROID_SDK_INSTALL_DIR/platforms/android-$ANDROID_API_LEVEL ]]; then
+    if [[ -z $SDK_PACKAGES ]]; then
+        SDK_PACKAGES="android-$ANDROID_API_LEVEL"
+    else
+        SDK_PACKAGES="$SDK_PACKAGES,android-$ANDROID_API_LEVEL"
+    fi
+fi
+
+if [[ ! -d $ANDROID_SDK_INSTALL_DIR/system-images/android-$ANDROID_API_LEVEL/default/$SYS_TAG ]]; then
+    if [[ -z $SDK_PACKAGES ]]; then
+        SDK_PACKAGES="sys-img-$SYS_TAG-android-$ANDROID_API_LEVEL"
+    else
+        SDK_PACKAGES="$SDK_PACKAGES,sys-img-$SYS_TAG-android-$ANDROID_API_LEVEL"
+    fi
+fi
+
+if [[ ! -z $SDK_PACKAGES ]]; then
+
+  expect -c "
+set timeout 600;
+spawn $ANDROID_SDK_INSTALL_DIR/tools/android update sdk -a --no-ui --filter $SDK_PACKAGES;
+expect {
+    \"Do you accept the license\" { exp_send \"y\r\" ; exp_continue }
+    eof
+}
+"
+fi
+
+if [[ ! -f $ANDROID_NDK_INSTALL_DIR/bin/$CC_X ]];then
   mkdir -p "${ANDROID_INSTALL_PREFIX}/downloads"
   pushd "${ANDROID_INSTALL_PREFIX}/downloads"
 
@@ -57,8 +90,8 @@ if [[ ! -d $ANDROID_NDK_INSTALL_DIR/sysroot/usr/include/arm-linux-androideabi ]]
 
   ./android-ndk-r${ANDROID_NDK_VERSION}/build/tools/make_standalone_toolchain.py \
 		 --force \
-		 --arch arm \
-		 --api 24 \
+		 --arch ${NDK_ARCH} \
+		 --api ${ANDROID_API_LEVEL} \
 		 --install-dir ${ANDROID_NDK_INSTALL_DIR}
 
   popd

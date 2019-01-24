@@ -17,6 +17,8 @@
 set -eux -o pipefail
 IFS=$'\n\t'
 
+export ANDROID_API_LEVEL=${ANDROID_API_LEVEL:-24}
+
 printenv
 
 case $TARGET_X in
@@ -26,11 +28,11 @@ aarch64-unknown-linux-gnu)
 arm-unknown-linux-gnueabihf)
   export QEMU_LD_PREFIX=/usr/arm-linux-gnueabihf
   ;;
-armv7-linux-androideabi)
+aarch64-linux-android|armv7-linux-androideabi)
   # install the android sdk/ndk
   mk/travis-install-android.sh
 
-  export PATH=$HOME/android/armv7-linux-androideabi24/bin:$PATH
+  export PATH=$HOME/android/$TARGET_X$ANDROID_API_LEVEL/bin:$PATH
   export PATH=$HOME/android/android-sdk-linux/platform-tools:$PATH
   export PATH=$HOME/android/android-sdk-linux/tools:$PATH
   ;;
@@ -92,15 +94,33 @@ else
 fi
 
 case $TARGET_X in
-armv7-linux-androideabi)
+aarch64-linux-android|armv7-linux-androideabi)
   cargo test -vv -j2 --no-run ${mode-} ${FEATURES_X-} --target=$TARGET_X
+
+  case $TARGET_X in
+  aarch64-linux-android)
+    ABI="arm64-v8a"
+  ;;
+  armv7-linux-androideabi)
+    ABI="armeabi-v7a"
+  ;;
+  esac
 
   # Building the AVD is slow. Do it here, after we build the code so that any
   # build breakage is reported sooner, instead of being delayed by this.
-  echo no | android create avd --name arm-24 --target android-24 --abi armeabi-v7a
+  if [[ ! $(android list avd -c | grep "$TARGET_X$ANDROID_API_LEVEL") == "$TARGET_X$ANDROID_API_LEVEL" ]]; then
+    echo no | android create avd --name $TARGET_X$ANDROID_API_LEVEL --target android-$ANDROID_API_LEVEL --abi $ABI
+  fi
   android list avd
 
-  emulator @arm-24 -memory 2048 -no-skin -no-boot-anim -no-window &
+  emulator -avd $TARGET_X$ANDROID_API_LEVEL \
+           -memory 2048 \
+           -no-skin \
+           -no-boot-anim \
+           -no-window \
+           -no-cache \
+           -no-snapstorage \
+           -wipe-data &
   adb wait-for-device
   adb root
   adb wait-for-device
@@ -133,7 +153,6 @@ armv7-linux-androideabi)
   done
 
   adb emu kill
-
   ;;
 *)
   cargo test -vv -j2 ${mode-} ${FEATURES_X-} --target=$TARGET_X

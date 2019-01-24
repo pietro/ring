@@ -3,8 +3,7 @@ cache:
   directories:
     - $HOME/kcov-i686-unknown-linux-gnu
     - $HOME/kcov-x86_64-unknown-linux-gnu
-    - $HOME/android/android-sdk-linux
-    - $HOME/android/android-18-arm-linux-androideabi-4.8
+    - $HOME/android
 matrix:
   fast_finish: true
   allow_failures:
@@ -37,6 +36,24 @@ matrix:
             - expect
 
     - env: TARGET_X=armv7-linux-androideabi CC_X=arm-linux-androideabi-clang FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
+      rust: stable
+      os: linux
+      dist: trusty
+      addons:
+        apt:
+          packages:
+            - expect
+
+    - env: TARGET_X=aarch64-linux-android CC_X=aarch64-linux-android-clang FEATURES_X= MODE_X=DEBUG KCOV=0
+      rust: stable
+      os: linux
+      dist: trusty
+      addons:
+        apt:
+          packages:
+            - expect
+
+    - env: TARGET_X=aarch64-linux-android CC_X=aarch64-linux-android-clang FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: stable
       os: linux
       dist: trusty
@@ -252,6 +269,24 @@ matrix:
           packages:
             - expect
 
+    - env: TARGET_X=aarch64-linux-android CC_X=aarch64-linux-android-clang FEATURES_X= MODE_X=DEBUG KCOV=0
+      rust: nightly
+      os: linux
+      dist: trusty
+      addons:
+        apt:
+          packages:
+            - expect
+
+    - env: TARGET_X=aarch64-linux-android CC_X=aarch64-linux-android-clang FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
+      rust: nightly
+      os: linux
+      dist: trusty
+      addons:
+        apt:
+          packages:
+            - expect
+
     - env: TARGET_X=x86_64-unknown-linux-gnu  FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: nightly
       os: linux
@@ -436,6 +471,24 @@ matrix:
             - expect
 
     - env: TARGET_X=armv7-linux-androideabi CC_X=arm-linux-androideabi-clang FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
+      rust: beta
+      os: linux
+      dist: trusty
+      addons:
+        apt:
+          packages:
+            - expect
+
+    - env: TARGET_X=aarch64-linux-android CC_X=aarch64-linux-android-clang FEATURES_X= MODE_X=DEBUG KCOV=0
+      rust: beta
+      os: linux
+      dist: trusty
+      addons:
+        apt:
+          packages:
+            - expect
+
+    - env: TARGET_X=aarch64-linux-android CC_X=aarch64-linux-android-clang FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: beta
       os: linux
       dist: trusty
