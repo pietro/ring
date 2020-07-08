@@ -109,29 +109,17 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
 
-    - env: TARGET_X=aarch64-unknown-linux-gnu CC_X=aarch64-linux-gnu-gcc FEATURES_X= MODE_X=DEBUG KCOV=0 RUST_X=stable
+    - env: TARGET_X=aarch64-unknown-linux-gnu CC_X=gcc FEATURES_X= MODE_X=DEBUG KCOV=0 RUST_X=stable
       rust: stable
       os: linux
+      arch: arm64
       dist: trusty
-      addons:
-        apt:
-          packages:
-            - gcc-aarch64-linux-gnu
-            - libc6-dev-arm64-cross
-          sources:
-            - ubuntu-toolchain-r-test
 
-    - env: TARGET_X=aarch64-unknown-linux-gnu CC_X=aarch64-linux-gnu-gcc FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0 RUST_X=stable
+    - env: TARGET_X=aarch64-unknown-linux-gnu CC_X=gcc FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0 RUST_X=stable
       rust: stable
       os: linux
+      arch: arm64
       dist: trusty
-      addons:
-        apt:
-          packages:
-            - gcc-aarch64-linux-gnu
-            - libc6-dev-arm64-cross
-          sources:
-            - ubuntu-toolchain-r-test
 
     - env: TARGET_X=i686-unknown-linux-gnu  FEATURES_X= MODE_X=DEBUG KCOV=0 RUST_X=stable
       rust: stable
@@ -331,29 +319,17 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
 
-    - env: TARGET_X=aarch64-unknown-linux-gnu CC_X=aarch64-linux-gnu-gcc FEATURES_X= MODE_X=DEBUG KCOV=0 RUST_X=nightly
+    - env: TARGET_X=aarch64-unknown-linux-gnu CC_X=gcc FEATURES_X= MODE_X=DEBUG KCOV=0 RUST_X=nightly
       rust: nightly
       os: linux
+      arch: arm64
       dist: trusty
-      addons:
-        apt:
-          packages:
-            - gcc-aarch64-linux-gnu
-            - libc6-dev-arm64-cross
-          sources:
-            - ubuntu-toolchain-r-test
 
-    - env: TARGET_X=aarch64-unknown-linux-gnu CC_X=aarch64-linux-gnu-gcc FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0 RUST_X=nightly
+    - env: TARGET_X=aarch64-unknown-linux-gnu CC_X=gcc FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0 RUST_X=nightly
       rust: nightly
       os: linux
+      arch: arm64
       dist: trusty
-      addons:
-        apt:
-          packages:
-            - gcc-aarch64-linux-gnu
-            - libc6-dev-arm64-cross
-          sources:
-            - ubuntu-toolchain-r-test
 
     - env: TARGET_X=i686-unknown-linux-gnu  FEATURES_X= MODE_X=DEBUG KCOV=0 RUST_X=nightly
       rust: nightly
@@ -556,29 +532,17 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
 
-    - env: TARGET_X=aarch64-unknown-linux-gnu CC_X=aarch64-linux-gnu-gcc FEATURES_X= MODE_X=DEBUG KCOV=0 RUST_X=beta
+    - env: TARGET_X=aarch64-unknown-linux-gnu CC_X=gcc FEATURES_X= MODE_X=DEBUG KCOV=0 RUST_X=beta
       rust: beta
       os: linux
+      arch: arm64
       dist: trusty
-      addons:
-        apt:
-          packages:
-            - gcc-aarch64-linux-gnu
-            - libc6-dev-arm64-cross
-          sources:
-            - ubuntu-toolchain-r-test
 
-    - env: TARGET_X=aarch64-unknown-linux-gnu CC_X=aarch64-linux-gnu-gcc FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0 RUST_X=beta
+    - env: TARGET_X=aarch64-unknown-linux-gnu CC_X=gcc FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0 RUST_X=beta
       rust: beta
       os: linux
+      arch: arm64
       dist: trusty
-      addons:
-        apt:
-          packages:
-            - gcc-aarch64-linux-gnu
-            - libc6-dev-arm64-cross
-          sources:
-            - ubuntu-toolchain-r-test
 
     - env: TARGET_X=i686-unknown-linux-gnu  FEATURES_X= MODE_X=DEBUG KCOV=0 RUST_X=beta
       rust: beta

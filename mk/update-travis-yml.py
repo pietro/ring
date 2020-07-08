@@ -42,7 +42,7 @@ osx_compilers = [
 ]
 
 compilers = {
-    "aarch64-unknown-linux-gnu" : [ "aarch64-linux-gnu-gcc" ],
+    "aarch64-unknown-linux-gnu" : [ "gcc" ],
     "aarch64-linux-android" : [ "aarch64-linux-android21-clang" ],
     "armv7-linux-androideabi" : [ "armv7a-linux-androideabi18-clang" ],
     "arm-unknown-linux-gnueabihf" : [ "arm-linux-gnueabihf-gcc" ],
@@ -92,7 +92,7 @@ def format_entries():
 
 # We use alternative names (the "_X" suffix) so that, in mk/travis.sh, we can
 # ensure that we set the specific variables we want and that no relevant
-# variables are unintentially inherited into the build process. Also, we have
+# variables are unintentionally inherited into the build process. Also, we have
 # to set |CC_X| instead of |CC| since Travis sets |CC| to its Travis CI default
 # value *after* processing the |env:| directive here.
 entry_template = """
@@ -152,6 +152,9 @@ def format_entry(os, target, compiler, rust, mode, features):
         components:
         - android-21
         - build-tools-26.0.2"""
+    elif target == "aarch64-unknown-linux-gnu":
+        template += """
+      arch: arm64"""
     else:
         abi = target_words[3]
 
@@ -205,9 +208,6 @@ def get_linux_packages_to_install(target, compiler, arch, kcov):
     if kcov:
         packages += [replace_cc_with_cxx(compiler)]
 
-    if target == "aarch64-unknown-linux-gnu":
-        packages += ["gcc-aarch64-linux-gnu",
-                     "libc6-dev-arm64-cross"]
     if target == "arm-unknown-linux-gnueabihf":
         packages += ["gcc-arm-linux-gnueabihf",
                      "libc6-dev-armhf-cross"]
