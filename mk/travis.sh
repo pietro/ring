@@ -53,14 +53,13 @@ if [[ "$KCOV" == "1" ]]; then
   for test_exe in `find target/$TARGET_X/debug/deps -maxdepth 1 -executable -type f`; do
     ${HOME}/kcov/bin/kcov \
       --verify \
-      --include-pattern=$(pwd)/crypto,$(pwd)/include,$(pwd)/src,$(pwd)/tests \
+      --include-pattern=ring/crypto,ring/include,ring/src,ring/tests \
       target/kcov \
       $test_exe
   done
   set -e
-  ${HOME}/kcov/bin/kcov \
-    --coveralls-id=$TRAVIS_JOB_ID \
-    --merge ./target/kcov-merge ./target/kcov
+  ${HOME}/kcov/bin/kcov --merge ./target/kcov-merge ./target/kcov/*
+  ${HOME}/kcov/bin/kcov --coveralls-id=$TRAVIS_JOB_ID ./target/kcov-merge
 fi
 
 exit 0
