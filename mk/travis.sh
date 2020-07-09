@@ -52,7 +52,6 @@ if [[ "$KCOV" == "1" ]]; then
   set +e
   for test_exe in `find target/$TARGET_X/debug/deps -maxdepth 1 -executable -type f`; do
     ${HOME}/kcov/bin/kcov \
-      --debug=1 \
       --verify \
       --exclude-path=/usr/include,${HOME}/.cargo \
       --include-path=$(pwd)/crypto,$(pwd)/include,$(pwd)/src,$(pwd)/tests \
