@@ -58,7 +58,8 @@ if [[ "$KCOV" == "1" ]]; then
       $test_exe
   done
   set -e
-  ${HOME}/kcov/bin/kcov --merge ./target/kcov-merge ./target/kcov/*
+  ${HOME}/kcov/bin/kcov --merge ./target/kcov-merge ./target/kcov
+  ls -la ./target/kcov-merge
   ${HOME}/kcov/bin/kcov --coveralls-id=$TRAVIS_JOB_ID ./target/kcov-merge
 fi
 
