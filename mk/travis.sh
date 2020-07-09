@@ -44,16 +44,14 @@ if [[ "$KCOV" == "1" ]]; then
   for test_exe in `find target/$TARGET_X/debug/deps -maxdepth 1 -executable -type f`; do
     ${HOME}/kcov/bin/kcov \
       --verify \
+      --coveralls-id=$TRAVIS_JOB_ID \
       --exclude-path=/usr/include,${HOME}/.cargo \
       --include-path=$(pwd)/crypto,$(pwd)/include,$(pwd)/src,$(pwd)/tests \
       target/kcov \
       $test_exe
   done
   set -e
-  ${HOME}/kcov/bin/kcov \
-    --coveralls-id=$TRAVIS_JOB_ID \
-    --merge ./target/kcov-merge ./target/kcov
-fi
+ fi
 
 exit 0
 
