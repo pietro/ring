@@ -2,7 +2,7 @@ language: rust
 rust:
   - nightly
 
-  cache:
+cache:
   directories:
     - $HOME/kcov
 
