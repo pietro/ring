@@ -38,7 +38,7 @@ if [[ "$KCOV" == "1" ]]; then
   CARGO_INCREMENTAL=0 \
   RUSTDOCFLAGS="-Cpanic=abort" \
   RUSTFLAGS="-Ccodegen-units=1 -Clink-dead-code -Coverflow-checks=on -Cpanic=abort -Zpanic_abort_tests -Zprofile" \
-    cargo test -vv -j2  ${mode-} ${FEATURES_X-} --target=$TARGET_X
+    cargo test -vv -j2 --no-run ${mode-} ${FEATURES_X-} --target=$TARGET_X
   mk/travis-install-kcov.sh
 
 
@@ -50,6 +50,7 @@ ls -la target/$TARGET_X/
 
 ls -la target/$TARGET_X/debug
 
+ls -la target/$TARGET_X/debug/deps
 
   for test_exe in `find target/$TARGET_X/debug -maxdepth 1 -executable -type f`; do
     ${HOME}/kcov/bin/kcov \
