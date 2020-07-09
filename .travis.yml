@@ -17,6 +17,7 @@ addons:
       - binutils-dev
       - libcurl4-openssl-dev
       - libdw-dev
+      - libbfd-dev
       - libelf-dev
       - libiberty-dev
 env:
