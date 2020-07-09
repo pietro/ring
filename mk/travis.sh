@@ -20,9 +20,6 @@ IFS=$'\n\t'
 printenv
 
 case $TARGET_X in
-aarch64-unknown-linux-gnu)
-  export QEMU_LD_PREFIX=/usr/aarch64-linux-gnu
-  ;;
 arm-unknown-linux-gnueabihf)
   export QEMU_LD_PREFIX=/usr/arm-linux-gnueabihf
   ;;
@@ -49,7 +46,7 @@ if [[ ! -z "${ANDROID_ABI-}" ]]; then
   rustup default
 fi
 
-if [[ "$TARGET_X" =~ ^(arm|aarch64) && ! "$TARGET_X" =~ android ]]; then
+if [[ "$TARGET_X" =~ ^arm && ! "$TARGET_X" =~ android ]]; then
   # We need a newer QEMU than Travis has.
   # sudo is needed until the PPA and its packages are whitelisted.
   # See https://github.com/travis-ci/apt-source-whitelist/issues/271
@@ -157,7 +154,7 @@ if [[ "$KCOV" == "1" ]]; then
     cargo test -vv --no-run -j2  ${mode-} ${FEATURES_X-} --target=$TARGET_X
   mk/travis-install-kcov.sh
   for test_exe in `find target/$TARGET_X/debug -maxdepth 1 -executable -type f`; do
-    ${HOME}/kcov-${TARGET_X}/bin/kcov \
+    ${HOME}/kcov/bin/kcov \
       --verify \
       --coveralls-id=$TRAVIS_JOB_ID \
       --exclude-path=/usr/include \

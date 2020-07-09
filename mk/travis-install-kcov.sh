@@ -19,18 +19,24 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-set -ex
+set -eux -o pipefail
 
 
 # kcov 26 or newer is needed when getting coverage information for Rust.
 # kcov 31 is needed so `kcov --version` doesn't exit with status 1.
-KCOV_VERSION=${KCOV_VERSION:-36}
+# kcov 32 is required for macos
+# kcov 38 is required for Aarch64 (ARM64)
+KCOV_VERSION=${KCOV_VERSION:-38}
 
-KCOV_INSTALL_PREFIX="${HOME}/kcov-${TARGET_X}"
+KCOV_INSTALL_PREFIX="${HOME}/kcov"
+
+KCOV_BIN="${KCOV_INSTALL_PREFIX}/bin/kcov"
+
+BUILD_HOST=$(uname -m)
 
 # Check if kcov has been cached on travis.
-if [[ -f "$KCOV_INSTALL_PREFIX/bin/kcov" ]]; then
-  KCOV_INSTALLED_VERSION=`$KCOV_INSTALL_PREFIX/bin/kcov --version`
+if [[ -x "${KCOV_BIN}" ]]; then
+  KCOV_INSTALLED_VERSION=$(${KCOV_BIN} --version)
   # Exit if we don't need to upgrade kcov.
   if [[ "$KCOV_INSTALLED_VERSION" == "kcov $KCOV_VERSION" ]]; then
     echo "Using cached kcov version: ${KCOV_VERSION}"
@@ -40,28 +46,33 @@ if [[ -f "$KCOV_INSTALL_PREFIX/bin/kcov" ]]; then
   fi
 fi
 
-curl -L https://github.com/SimonKagstrom/kcov/archive/v$KCOV_VERSION.tar.gz | tar -zxf -
+curl -L "https://github.com/SimonKagstrom/kcov/archive/v${KCOV_VERSION}.tar.gz" | tar -zxf -
 
-pushd kcov-$KCOV_VERSION
+pushd "kcov-${KCOV_VERSION}"
 
 mkdir build
-
 pushd build
 
-if [[  "$TARGET_X" == "i686-unknown-linux-gnu" ]]; then
-  # set PKG_CONFIG_PATH so the kcov build system uses the 32 bit libraries we installed.
-  # otherwise kcov will be linked with 64 bit libraries and won't work with 32 bit executables.
-  PKG_CONFIG_PATH="/usr/lib/i386-linux-gnu/pkgconfig" CFLAGS="-m32" \
-  CXXFLAGS="-m32" TARGET=$TARGET_X \
-  cmake -DCMAKE_INSTALL_PREFIX:PATH="${KCOV_INSTALL_PREFIX}" ..
-else
-  TARGET=$TARGET_X cmake -DCMAKE_INSTALL_PREFIX:PATH="${KCOV_INSTALL_PREFIX}" ..
+if [[ ! "$TARGET_X" =~ "^${BUILD_HOST}" ]]; then
+  if [[  "$TARGET_X" == "i686-unknown-linux-gnu" ]]; then
+    # set the correct PKG_CONFIG_PATH so the kcov build system uses the 32 bit libraries we installed.
+    # otherwise kcov will be linked with 64 bit libraries and won't work with 32 bit executables.
+    export PKG_CONFIG_PATH="/usr/lib/i386-linux-gnu/pkgconfig"
+    export CFLAGS="-m32"
+    export CXXFLAGS="-m32"
+  else
+    export PKG_CONFIG_PATH="/usr/lib/${TARGET_X}/pkgconfig"
+  fi
 fi
+
+export TARGET="${TARGET_X}"
+
+cmake -DCMAKE_INSTALL_PREFIX:PATH="${KCOV_INSTALL_PREFIX}" ..
 
 make
 make install
 
-$KCOV_INSTALL_PREFIX/bin/kcov --version
+"${KCOV_BIN}" --version
 
 popd
 popd
