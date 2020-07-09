@@ -53,7 +53,7 @@ pushd "kcov-${KCOV_VERSION}"
 mkdir build
 pushd build
 
-if [[ ! "$TARGET_X" =~ "^${BUILD_HOST}" ]]; then
+if [[ ! "$TARGET_X" =~ ^"${BUILD_HOST}" ]]; then
   if [[  "$TARGET_X" == "i686-unknown-linux-gnu" ]]; then
     # set the correct PKG_CONFIG_PATH so the kcov build system uses the 32 bit libraries we installed.
     # otherwise kcov will be linked with 64 bit libraries and won't work with 32 bit executables.
