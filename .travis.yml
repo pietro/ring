@@ -2,25 +2,29 @@ language: rust
 rust:
   - nightly
 
-cache:
-  directories:
-    - $HOME/kcov
-
 os: linux
 dist: bionic
 
-arch: arm64
+arch:
+  - arm64
+  - amd64
 
 addons:
   apt:
     packages:
+      - build-essential
       - binutils-dev
       - libcurl4-openssl-dev
       - libdw-dev
-      - libbfd-dev
-      - libelf-dev
       - libiberty-dev
+      - zlib1g-dev
+
 env:
-  - TARGET_X=aarch64-unknown-linux-gnu MODE_X=DEBUG KCOV=1
+  global:
+    - MODE_X=DEBUG
+    - KCOV=1
+  jobs:
+    - TARGET_X=aarch64-unknown-linux-gnu
+    - TARGET_X=x86_64-unknown-linux-gnu
 
 script: mk/travis.sh

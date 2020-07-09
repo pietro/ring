@@ -63,9 +63,8 @@ if [[ ! "$TARGET_X" =~ ^"${BUILD_HOST}" ]]; then
   else
     export PKG_CONFIG_PATH="/usr/lib/${TARGET_X}/pkgconfig"
   fi
+  export TARGET="${TARGET_X}"
 fi
-
-export TARGET="${TARGET_X}"
 
 cmake -DCMAKE_INSTALL_PREFIX:PATH="${KCOV_INSTALL_PREFIX}" ..
 
