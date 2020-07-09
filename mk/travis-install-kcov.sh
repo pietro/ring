@@ -34,17 +34,17 @@ KCOV_BIN="${KCOV_INSTALL_PREFIX}/bin/kcov"
 
 BUILD_HOST=$(uname -m)
 
-# # Check if kcov has been cached on travis.
-# if [[ -x "${KCOV_BIN}" ]]; then
-#   KCOV_INSTALLED_VERSION=$(${KCOV_BIN} --version)
-#   # Exit if we don't need to upgrade kcov.
-#   if [[ "$KCOV_INSTALLED_VERSION" == "kcov $KCOV_VERSION" ]]; then
-#     echo "Using cached kcov version: ${KCOV_VERSION}"
-#     exit 0
-#   else
-#     rm -rf "$KCOV_INSTALL_PREFIX"
-#   fi
-# fi
+# Check if kcov has been cached on travis.
+if [[ -x "${KCOV_BIN}" ]]; then
+  KCOV_INSTALLED_VERSION=$(${KCOV_BIN} --version)
+  # Exit if we don't need to upgrade kcov.
+  if [[ "$KCOV_INSTALLED_VERSION" == "kcov $KCOV_VERSION" ]]; then
+    echo "Using cached kcov version: ${KCOV_VERSION}"
+    exit 0
+  else
+    rm -rf "$KCOV_INSTALL_PREFIX"
+  fi
+fi
 
 curl -L "https://github.com/SimonKagstrom/kcov/archive/v${KCOV_VERSION}.tar.gz" | tar -zxf -
 
