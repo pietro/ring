@@ -51,6 +51,8 @@ if [[ "$KCOV" == "1" ]]; then
   done
   for test_exe in `find target/$TARGET_X/debug/deps -maxdepth 1 -executable -type f`; do
     ${HOME}/kcov/bin/kcov \
+      --skip-solibs \
+      --debug=15 \
       --verify \
       --coveralls-id=$TRAVIS_JOB_ID \
       --exclude-path=/usr/include \
