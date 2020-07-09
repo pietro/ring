@@ -44,6 +44,8 @@ if [[ "$KCOV" == "1" ]]; then
 
 ls -la target
 
+ls -la target/debug
+
 ls -la target/$TARGET_X/
 
 ls -la target/$TARGET_X/debug
