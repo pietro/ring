@@ -19,6 +19,49 @@ IFS=$'\n\t'
 
 printenv
 
+
+if [[ "$KCOV" == "1" ]]; then
+  # kcov reports coverage as a percentage of code *linked into the executable*
+  # (more accurately, code that has debug info linked into the executable), not
+  # as a percentage of source code. Thus, any code that gets discarded by the
+  # linker due to lack of usage isn't counted at all. Thus, we have to re-link
+  # with "-C link-dead-code" to get accurate code coverage reports.
+  # Alternatively, we could link pass "-C link-dead-code" in the "cargo test"
+  # step above, but then "cargo test" we wouldn't be testing the configuration
+  # we expect people to use in production.
+  #
+  # panic=abort is used to get accurate coverage. See
+  # https://github.com/rust-lang/rust/issues/43410 and
+  # https://github.com/mozilla/grcov/issues/427#issuecomment-623995594 and
+  # https://github.com/rust-lang/rust/issues/55352.
+  cargo clean
+  CARGO_INCREMENTAL=0 \
+  RUSTDOCFLAGS="-Cpanic=abort" \
+  RUSTFLAGS="-Ccodegen-units=1 -Clink-dead-code -Coverflow-checks=on -Cpanic=abort -Zpanic_abort_tests -Zprofile" \
+    cargo test -vv --no-run -j2  ${mode-} ${FEATURES_X-} --target=$TARGET_X
+  mk/travis-install-kcov.sh
+
+
+ls -la target
+
+ls -la target/$TARGET_X/
+
+ls -la target/$TARGET_X/debug
+
+
+  for test_exe in `find target/$TARGET_X/debug -maxdepth 1 -executable -type f`; do
+    ${HOME}/kcov/bin/kcov \
+      --verify \
+      --coveralls-id=$TRAVIS_JOB_ID \
+      --exclude-path=/usr/include \
+      --include-pattern="ring/crypto,ring/src,ring/tests" \
+      target/kcov \
+      $test_exe
+  done
+fi
+
+exit 0
+
 case $TARGET_X in
 arm-unknown-linux-gnueabihf)
   export QEMU_LD_PREFIX=/usr/arm-linux-gnueabihf
@@ -133,35 +176,5 @@ else
   fi
 fi
 
-if [[ "$KCOV" == "1" ]]; then
-  # kcov reports coverage as a percentage of code *linked into the executable*
-  # (more accurately, code that has debug info linked into the executable), not
-  # as a percentage of source code. Thus, any code that gets discarded by the
-  # linker due to lack of usage isn't counted at all. Thus, we have to re-link
-  # with "-C link-dead-code" to get accurate code coverage reports.
-  # Alternatively, we could link pass "-C link-dead-code" in the "cargo test"
-  # step above, but then "cargo test" we wouldn't be testing the configuration
-  # we expect people to use in production.
-  #
-  # panic=abort is used to get accurate coverage. See
-  # https://github.com/rust-lang/rust/issues/43410 and
-  # https://github.com/mozilla/grcov/issues/427#issuecomment-623995594 and
-  # https://github.com/rust-lang/rust/issues/55352.
-  cargo clean
-  CARGO_INCREMENTAL=0 \
-  RUSTDOCFLAGS="-Cpanic=abort" \
-  RUSTFLAGS="-Ccodegen-units=1 -Clink-dead-code -Coverflow-checks=on -Cpanic=abort -Zpanic_abort_tests -Zprofile" \
-    cargo test -vv --no-run -j2  ${mode-} ${FEATURES_X-} --target=$TARGET_X
-  mk/travis-install-kcov.sh
-  for test_exe in `find target/$TARGET_X/debug -maxdepth 1 -executable -type f`; do
-    ${HOME}/kcov/bin/kcov \
-      --verify \
-      --coveralls-id=$TRAVIS_JOB_ID \
-      --exclude-path=/usr/include \
-      --include-pattern="ring/crypto,ring/src,ring/tests" \
-      target/kcov \
-      $test_exe
-  done
-fi
 
 echo end of mk/travis.sh
