@@ -5,6 +5,11 @@ rust:
 os: linux
 dist: bionic
 
+cache:
+  cargo: true
+  directories:
+    - $HOME/kcov
+
 addons:
   apt:
     packages:
