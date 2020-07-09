@@ -40,15 +40,6 @@ if [[ "$KCOV" == "1" ]]; then
   RUSTFLAGS="-Ccodegen-units=1 -Clink-dead-code -Coverflow-checks=on -Cpanic=abort -Zpanic_abort_tests -Zprofile" \
     cargo test -vv -j2 --no-run ${mode-} ${FEATURES_X-} --target=$TARGET_X
   mk/travis-install-kcov.sh
-  for test_exe in `find target/$TARGET_X/debug/deps -maxdepth 1 -executable -type f`; do
-    # ${HOME}/kcov/bin/kcov \
-    #   --verify \
-    #   --coveralls-id=$TRAVIS_JOB_ID \
-    #   --exclude-path=/usr/include \
-    #   --include-pattern="ring/crypto,ring/src,ring/tests" \
-    #   target/kcov \
-      $test_exe
-  done
   set +e
   for test_exe in `find target/$TARGET_X/debug/deps -maxdepth 1 -executable -type f`; do
     ${HOME}/kcov/bin/kcov \
@@ -60,7 +51,6 @@ if [[ "$KCOV" == "1" ]]; then
   done
   set -e
   ${HOME}/kcov/bin/kcov \
-    --debug=1 \
     --coveralls-id=$TRAVIS_JOB_ID \
     --merge ./target/kcov-merge ./target/kcov
 fi
