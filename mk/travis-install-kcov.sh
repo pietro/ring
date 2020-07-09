@@ -59,9 +59,8 @@ if [[  "$TARGET_X" == "i686-unknown-linux-gnu" ]]; then
   export PKG_CONFIG_PATH="/usr/lib/i386-linux-gnu/pkgconfig"
   export CFLAGS="-m32"
   export CXXFLAGS="-m32"
-  elif [[  "$TARGET_X" == "aarch64-unknown-linux-gnu" ]]; then
-    export PKG_CONFIG_PATH="/usr/lib/aarch64-linux-gnu/pkgconfig"
-  fi
+elif [[  "$TARGET_X" == "aarch64-unknown-linux-gnu" ]]; then
+  export PKG_CONFIG_PATH="/usr/lib/aarch64-linux-gnu/pkgconfig"
 fi
 
 export TARGET="${TARGET_X}"
