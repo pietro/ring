@@ -103,7 +103,7 @@ else
 fi
 
 if [[ -z "${ANDROID_ABI-}" ]]; then
-  cargo test -vv -j2 ${mode-} ${FEATURES_X-} --target=$TARGET_X 2>&1 | tee /tmp/ring-test-log
+  cargo test -vv -j2 ${mode-} ${FEATURES_X-} --target=$TARGET_X
 else
   cargo test -vv -j2 --no-run ${mode-} ${FEATURES_X-} --target=$TARGET_X
 
@@ -156,8 +156,7 @@ if [[ "$KCOV" == "1" ]]; then
   RUSTFLAGS="-Ccodegen-units=1 -Clink-dead-code -Coverflow-checks=on -Cpanic=abort -Zpanic_abort_tests -Zprofile" \
     cargo test -vv --no-run -j2  ${mode-} ${FEATURES_X-} --target=$TARGET_X
   mk/travis-install-kcov.sh
-  TEST_EXES=$(grep -E "^\s+Running\ \`${PWD}/target/${TARGET_X}/debug" /tmp/ring-test-log | sed 's/[[:space:]]\+Running `\(.*\)`/\1/')
-  for test_exe in ${TEST_EXES[@]}; do
+  for test_exe in `find target/$TARGET_X/debug/deps -maxdepth 1 -executable -type f`; do
     ${HOME}/kcov/bin/kcov \
       --verify \
       --coveralls-id=$TRAVIS_JOB_ID \
