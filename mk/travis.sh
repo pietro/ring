@@ -157,7 +157,7 @@ if [[ "$KCOV" == "1" ]]; then
     cargo test -vv --no-run -j2  ${mode-} ${FEATURES_X-} --target=$TARGET_X
   mk/travis-install-kcov.sh
   TEST_EXES=$(grep -E "^\s+Running\ \`${PWD}/target/${TARGET_X}/debug" /tmp/ring-test-log | sed 's/[[:space:]]\+Running `\(.*\)`/\1/')
-  for test_exe in "${TEST_EXES[@]}"; do
+  for test_exe in ${TEST_EXES[@]}; do
     ${HOME}/kcov/bin/kcov \
       --verify \
       --coveralls-id=$TRAVIS_JOB_ID \
