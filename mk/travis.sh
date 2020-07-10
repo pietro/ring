@@ -156,7 +156,7 @@ if [[ "$KCOV" == "1" ]]; then
   RUSTFLAGS="-Ccodegen-units=1 -Clink-dead-code -Coverflow-checks=on -Cpanic=abort -Zpanic_abort_tests -Zprofile" \
     cargo test -vv --no-run -j2  ${mode-} ${FEATURES_X-} --target=$TARGET_X
   mk/travis-install-kcov.sh
-  TEST_EXES=$(grep -E "^\s+Running\ \`${PWD}/target/${TARGET_X}" /tmp/ring-test-log | sed 's/[[:space:]]+Running \`\(.*\)\`$/\1/')
+  TEST_EXES=$(grep -E "^\s+Running\ \`${PWD}/target/${TARGET_X}" /tmp/ring-test-log | sed 's/^[[:space:]]*Running \`\(.*\)\`$/\1/')
   for test_exe in "${TEST_EXES[@]}"; do
     ${HOME}/kcov/bin/kcov \
       --verify \
