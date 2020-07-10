@@ -158,7 +158,7 @@ if [[ "$KCOV" == "1" ]]; then
   mk/travis-install-kcov.sh
   TEST_EXES=$(grep -E "^\s+Running\ \`${PWD}/target/${TARGET_X}" /tmp/ring-test-log | sed 's/[[:space:]]+Running \`\(.*\)\`$/\1/')
   for test_exe in "${TEST_EXES[@]}"; do
-    ${HOME}/kcov-${TARGET_X}/bin/kcov \
+    ${HOME}/kcov/bin/kcov \
       --verify \
       --coveralls-id=$TRAVIS_JOB_ID \
       --exclude-path=/usr/include \
